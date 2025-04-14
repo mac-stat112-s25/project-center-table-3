@@ -36,11 +36,21 @@ book:
     search: true
 
   chapters:
-    - index.qmd
+  - index.qmd
+
+  - part: "Effective Teamwork"
+    chapters:
+    - src/et/quinn-c.qmd
+  
+  - part: "EDA"
+    chapters:
+    - src/eda/quinn-c.qmd
 
   appendices:
-  - src/appx/proposal.qmd
-  - src/appx/case-study.qmd
+   - src/appx/proposal.qmd
+   - src/appx/case-study.qmd
+  
+  
 
 
 
