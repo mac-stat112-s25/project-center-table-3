@@ -8,6 +8,15 @@ code-fold: false  # change to true to fold the code chunks
 Your report will go here.
 
 ```{r}
-# this is a test code
+library(tidyverse)
+library(stringi)
+presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
+```
+
+
+```{r}
+presidencial |>
+  ggplot(aes(x = DISTRITO_FEDERAL)) +
+  geom_bar()
 ```
 
