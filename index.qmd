@@ -12,7 +12,30 @@ library(tidyverse)
 library(stringi)
 presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
 ```
-
+```{r}
+presidencial |>
+  rename(
+    casilla_code = CLAVE_CASILLA,
+    acta_code = CLAVE_ACTA,
+    ID_entity = ID_ENTIDAD,
+    entity_state = ENTIDAD,
+    ID_federal_district = ID_DISTRITO_FEDERAL,
+    federal_district = DISTRITO_FEDERAL,
+    section = SECCION,
+    casilla_id = ID_CASILLA,
+    casilla_type = TIPO_CASILLA,
+    ext_contigua = EXT_CONTIGUA,
+    casilla = CASILLA,
+    acta_type = TIPO_ACTA,
+    independent = `CANDIDATO/A NO REGISTRADO/A`,
+    null_votes = `VOTOS NULOS`,
+    total_votes = TOTAL_VOTOS_CALCULADOS,
+    eligible_voters = LISTA_NOMINAL,
+    observations = OBSERVACIONES,
+    transfer_mechanism = MECANISMOS_TRASLADO,
+    date_time = FECHA_HORA
+    )
+```
 
 
 
