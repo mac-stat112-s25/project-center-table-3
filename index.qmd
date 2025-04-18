@@ -14,9 +14,6 @@ presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip 
 ```
 
 
-```{r}
-presidencial |>
-  ggplot(aes(x = DISTRITO_FEDERAL)) +
-  geom_bar()
-```
+
+
 
