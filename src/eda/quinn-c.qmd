@@ -3,3 +3,8 @@ title: "Quinn C"
 format: html
 ---
 
+```{r}
+presidential |>
+  
+```
+

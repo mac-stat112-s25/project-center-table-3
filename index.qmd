@@ -13,7 +13,7 @@ library(stringi)
 presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
 ```
 ```{r}
-presidencial |>
+presidential <- presidencial |>
   rename(
     casilla_code = CLAVE_CASILLA,
     acta_code = CLAVE_ACTA,
@@ -34,9 +34,20 @@ presidencial |>
     observations = OBSERVACIONES,
     transfer_mechanism = MECANISMOS_TRASLADO,
     date_time = FECHA_HORA
-    )
+    ) |>
+  filter(total_votes != 0) |>
+  mutate_at(vars(13:31), as.numeric) |>
+  mutate(sheinbaum = PT + MORENA + PVEM_PT_MORENA + PVEM_PT + PVEM_MORENA + PT_MORENA + PVEM) |>
+  mutate(galvez = PAN + PAN_PRI_PRD + PAN_PRI + PAN_PRD + PRI + PRI_PRD + PRD) |>
+  mutate(maynez = MC)
+
 ```
 
+```{r}
+candidaturas <- read_delim("data/presidential/PRES_CANDIDATURAS_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
+
+candidaturas
+```
 
 
 
