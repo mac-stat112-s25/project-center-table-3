@@ -1,11 +1,12 @@
 ---
 title: "Quinn C"
 format: html
+execute: 
+  warning: false
 ---
 
 ```{r}
 #| echo: false
-#| warning: false
 #load packages
 library(tidyverse)
 library(RColorBrewer)
