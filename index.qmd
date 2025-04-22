@@ -44,9 +44,7 @@ presidential <- presidencial |>
 ```
 
 ```{r}
-candidaturas <- read_delim("data/presidential/PRES_CANDIDATURAS_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
-
-candidaturas
+write_csv(presidential, "presidential_clean.csv")
 ```
 
 
