@@ -12,6 +12,7 @@ library(tidyverse)
 library(stringi)
 presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
 ```
+
 ```{r}
 presidential <- presidencial |>
   rename(
@@ -47,5 +48,11 @@ presidential <- presidencial |>
 write_csv(presidential, "presidential_clean.csv")
 ```
 
-
+```{r}
+presidential_clean <- presidential |>
+  mutate(casilla = fct_recode(casilla, "Non-urban" = "No Urbana", "Urban" = "Urbana")) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(casilla_code, acta_code, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez)
+```
 
