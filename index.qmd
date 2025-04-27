@@ -44,9 +44,6 @@ presidential <- presidencial |>
 
 ```
 
-```{r}
-write_csv(presidential, "presidential_clean.csv")
-```
 
 ```{r}
 presidential_clean <- presidential |>
@@ -54,5 +51,9 @@ presidential_clean <- presidential |>
   mutate(entity_state = str_to_title(entity_state)) |>
   mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
   select(casilla_code, acta_code, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez)
+```
+
+```{r}
+write_csv(presidential_clean, "elections_clean.csv")
 ```
 
