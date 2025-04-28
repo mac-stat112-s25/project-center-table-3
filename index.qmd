@@ -47,7 +47,11 @@ presidential_clean <- presidential |>
   mutate(casilla = fct_recode(casilla, "Non-urban" = "No Urbana", "Urban" = "Urbana")) |>
   mutate(entity_state = str_to_title(entity_state)) |>
   mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
-  select(casilla_code, acta_code, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez)
+  select(casilla_code, acta_code, ID_entity, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez) |>
+  rename(
+    id_state = ID_entity,
+    state = entity_state
+  )
 
 # IGNORE THE ONE CALLED `presidential_clean.csv`!!!!!!!
 
@@ -65,7 +69,7 @@ population_20 <- population_messy |>
   rename(
     state = State,
     year = Year,
-    code_state = `State ID`,
+    id_state = `State ID`,
     pop = Population
   )
 
@@ -81,13 +85,13 @@ income_16_22 <- income_messy |> # keeping year-by-year data as possible analysis
   rename(
     state = State,
     year = Year,
-    code_state = `State ID`,
+    id_state = `State ID`,
     income_quarterly_mxp = `Quarterly Income`
   )
 
 # violent crime by state (data in Spanish)
 crimes_messy <- read_csv("data/originals/crimes_state_1524.csv")
-crimes_messy|> # we only want crime data from 2023 as it was before the election, possible avg after 2018
+violent_crimes_18_23 <- crimes_messy|> # we only want crime data from 2023 as it was before the election, possible avg after 2018
   mutate(
     State = str_replace(State, "Ciudad de México", "Distrito Federal"),
     State = str_replace(State, " de Zaragoza", ""),
@@ -107,31 +111,32 @@ crimes_messy|> # we only want crime data from 2023 as it was before the election
   rename(
     state = State,
     year = Year,
-    code_state = `State ID`
+    id_state = `State ID`
   )
   
 
-# indigenous mexicans (by state, those who speak a language)
-census_messy <- read_csv("data/originals/mx_census_2020.csv")
-census_messy |>
-  filter(NOM_LOC == "Total de la Entidad") |> # census totals by state
-  mutate(
-    NOM_ENT = str_replace(NOM_ENT, "Ciudad de México", "Distrito Federal"),
-    NOM_ENT = str_replace(NOM_ENT, " de Zaragoza", ""),
-    NOM_ENT = str_replace(NOM_ENT, " de Ocampo", ""),
-    NOM_ENT = str_replace(NOM_ENT, " de Ignacio de la Llave", "")) |>
-  select(1:2, 10, 124:139) |>
-  select(-contains("AFRO"), -ends_with("_M"), -ends_with("_F")) |>
-  rename(
-    code_state = ENTIDAD,
-    state = NOM_ENT,
-    tot_pop = POBTOT,
-    indigenous_hh = PHOG_IND
-  ) |>
-  mutate_at(vars(4:10), as.numeric) |>
-  mutate(pct_indigenous = (indigenous_hh/tot_pop)*100)
+# indigenous mexicans (by state, those who speak an indigenous language)
+# ¡UNZIP mx_census_2020.csv ZIP FILE TO RUN!
+# census_messy <- read_csv("data/originals/mx_census_2020.csv")
+# census_messy |>
+#   filter(NOM_LOC == "Total de la Entidad") |> # census totals by state
+#   mutate(
+#     NOM_ENT = str_replace(NOM_ENT, "Ciudad de México", "Distrito Federal"),
+#     NOM_ENT = str_replace(NOM_ENT, " de Zaragoza", ""),
+#     NOM_ENT = str_replace(NOM_ENT, " de Ocampo", ""),
+#     NOM_ENT = str_replace(NOM_ENT, " de Ignacio de la Llave", "")) |>
+#   select(1:2, 10, 124:139) |>
+#   select(-contains("AFRO"), -ends_with("_M"), -ends_with("_F")) |>
+#   rename(
+#     id_state = ENTIDAD,
+#     state = NOM_ENT,
+#     tot_pop = POBTOT,
+#     indigenous_hh = PHOG_IND
+#   ) |>
+#   mutate_at(vars(4:10), as.numeric) |>
+#   mutate(pct_indigenous = (indigenous_hh/tot_pop)*100)
 
-# import second indigenous dataset idfk
+# import second indigenous dataset idfk (those who self-identify as indigenous)
 library(readxl)
 indigenous_messy <- read_excel("data/originals/1-poblacion-indigena-autoadscrita-nacional-y-por-entidad-federativa-muestra-censal-2020.xlsx", 
     skip = 3)
@@ -147,10 +152,9 @@ indigenous_pop_24 <- indigenous_messy |>
   select(`Clave de la entidad`, Entidad, Tipo, `Se considera indígena`) |>
   pivot_wider(names_from = Tipo, values_from = `Se considera indígena`) |>
   rename(
-    code_state = `Clave de la entidad`,
+    id_state = `Clave de la entidad`,
     state = Entidad,
     pop_ind = Población,
     pct_ind = Porcentaje
   )
-  
 ```
