@@ -157,4 +157,29 @@ indigenous_pop_24 <- indigenous_messy |>
     pop_ind = Población,
     pct_ind = Porcentaje
   )
+
+# democracy index
+mx_dem_index <- tribble(
+  ~year, ~ranking, ~regime_type,
+  2010, 6.93, "Flawed democracy",
+  2011, 6.93, "Flawed democracy",
+  2012, 6.90, "Flawed democracy",
+  2013, 6.91, "Flawed democracy",
+  2014, 6.68, "Flawed democracy",
+  2015, 6.55, "Flawed democracy",
+  2016, 6.47, "Flawed democracy",
+  2017, 6.41, "Flawed democracy",
+  2018, 6.19, "Flawed democracy",
+  2019, 6.09, "Flawed democracy",
+  2020, 6.07, "Flawed democracy",
+  2021, 5.57, "Hybrid regime",
+  2022, 5.25, "Hybrid regime",
+  2023, 5.14, "Hybrid regime",
+  2024, 5.32, "Hybrid regime"
+)
+
+ggplot(mx_dem_index, aes(x = year, y = ranking)) +
+  geom_line() +
+  ylim(2, 8)
+
 ```
