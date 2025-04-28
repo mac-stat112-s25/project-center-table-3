@@ -178,8 +178,4 @@ mx_dem_index <- tribble(
   2024, 5.32, "Hybrid regime"
 )
 
-ggplot(mx_dem_index, aes(x = year, y = ranking)) +
-  geom_line() +
-  ylim(2, 8)
-
 ```
