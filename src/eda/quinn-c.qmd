@@ -38,7 +38,7 @@ presidential |>
     geom_col(position = "fill") +
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
     theme_light() +
-  labs(x = "Voted Abroad?", y = "Vote Share", fill = "Candidate")
+  labs(x = "Voted Abroad?", y = "Vote Share", fill = "Candidate", caption = "By Quinn Cowell, 4/27/2025, INE 2024", title = "Abroad voting vs. voting within mexico")
 ```
 
 ```{r}
