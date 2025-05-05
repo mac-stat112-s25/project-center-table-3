@@ -96,7 +96,7 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_sheinbaum_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote")
+    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote", na.translate = FALSE)
 ```
 ```{r}
 # plot Gálvez results
@@ -105,7 +105,7 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_galvez_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote")
+    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote", na.translate = FALSE)
 ```
 ```{r}
 # plot Máynez results
@@ -114,7 +114,7 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_maynez_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(6, "Oranges"), name = "% Vote")
+    scale_fill_manual(values = brewer.pal(6, "Oranges"), name = "% Vote", na.translate = FALSE)
 ```
 
 ```{r}
