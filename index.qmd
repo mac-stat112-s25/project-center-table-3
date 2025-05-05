@@ -8,12 +8,12 @@ code-fold: false  # change to true to fold the code chunks
 Your report will go here.
 
 ```{r}
+# putting all the data shit in one chunk so we can collapse it more easily later
+# load presidential election data
 library(tidyverse)
 library(stringi)
 presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
-```
 
-```{r}
 presidential <- presidencial |>
   rename(
     casilla_code = CLAVE_CASILLA,
@@ -42,17 +42,140 @@ presidential <- presidencial |>
   mutate(galvez = PAN + PAN_PRI_PRD + PAN_PRI + PAN_PRD + PRI + PRI_PRD + PRD) |>
   mutate(maynez = MC)
 
-```
-
-```{r}
-write_csv(presidential, "presidential_clean.csv")
-```
-
-```{r}
+# clean it again because i realized i wasn't htorough enough the first time but i used the original dataset in my eda
 presidential_clean <- presidential |>
   mutate(casilla = fct_recode(casilla, "Non-urban" = "No Urbana", "Urban" = "Urbana")) |>
   mutate(entity_state = str_to_title(entity_state)) |>
   mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
-  select(casilla_code, acta_code, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez)
+  select(casilla_code, acta_code, ID_entity, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez) |>
+  rename(
+    id_state = ID_entity,
+    state = entity_state
+  )
+
+# IGNORE THE ONE CALLED `presidential_clean.csv`!!!!!!!
+
+# now we're going to upload and clean some statistical data from Mexico
+# population by state
+population_messy <- read_csv("data/originals/population_state_1020.csv")
+population_20 <- population_messy |>
+  filter(Year == 2020) |>
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`,
+    pop = Population
+  )
+
+# quarterly income by state and year (MXP)
+income_messy <- read_csv("data/originals/income_state_1622.csv")
+income_16_22 <- income_messy |> # keeping year-by-year data as possible analysis tool
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`,
+    income_quarterly_mxp = `Quarterly Income`
+  )
+
+# violent crime by state (data in Spanish)
+crimes_messy <- read_csv("data/originals/crimes_state_1524.csv")
+violent_crimes_18_23 <- crimes_messy|> # we only want crime data from 2023 as it was before the election, possible avg after 2018
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  filter(Year %in% c(2019, 2020, 2021, 2022, 2023)) |> #removing data pre-AMLO + election years
+  # we will be using the FBI's definition of violent crime to filter the list
+  filter(`Crime Type` %in% c("Robo", 
+                             "Violación Equiparada", 
+                             "Violación Simple", 
+                             "Homicidio", 
+                             "Lesiones", 
+                             "Otros Delitos que Atentan contra la Vida y la Integridad Corporal")) |>
+  group_by(State, Year, `State ID`) |>
+  summarise(tot_viol_crime = sum(Value)) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`
+  )
+  
+
+# indigenous mexicans (by state, those who speak an indigenous language)
+# ¡UNZIP mx_census_2020.csv ZIP FILE TO RUN!
+# census_messy <- read_csv("data/originals/mx_census_2020.csv")
+# census_messy |>
+#   filter(NOM_LOC == "Total de la Entidad") |> # census totals by state
+#   mutate(
+#     NOM_ENT = str_replace(NOM_ENT, "Ciudad de México", "Distrito Federal"),
+#     NOM_ENT = str_replace(NOM_ENT, " de Zaragoza", ""),
+#     NOM_ENT = str_replace(NOM_ENT, " de Ocampo", ""),
+#     NOM_ENT = str_replace(NOM_ENT, " de Ignacio de la Llave", "")) |>
+#   select(1:2, 10, 124:139) |>
+#   select(-contains("AFRO"), -ends_with("_M"), -ends_with("_F")) |>
+#   rename(
+#     id_state = ENTIDAD,
+#     state = NOM_ENT,
+#     tot_pop = POBTOT,
+#     indigenous_hh = PHOG_IND
+#   ) |>
+#   mutate_at(vars(4:10), as.numeric) |>
+#   mutate(pct_indigenous = (indigenous_hh/tot_pop)*100)
+
+# import second indigenous dataset idfk (those who self-identify as indigenous)
+library(readxl)
+indigenous_messy <- read_excel("data/originals/1-poblacion-indigena-autoadscrita-nacional-y-por-entidad-federativa-muestra-censal-2020.xlsx", 
+    skip = 3)
+indigenous_pop_24 <- indigenous_messy |>
+  filter(!is.na(Entidad)) |>
+  filter(Entidad != "Estados Unidos Mexicanos") |>
+  mutate(
+    Entidad = str_replace(Entidad, "Ciudad de México", "Distrito Federal"),
+    Entidad = str_replace(Entidad, " de Zaragoza", ""),
+    Entidad = str_replace(Entidad, " de Ocampo", ""),
+    Entidad = str_replace(Entidad, " de Ignacio de la Llave", "")) |>
+  filter(Estimador == "Estimación") |>
+  select(`Clave de la entidad`, Entidad, Tipo, `Se considera indígena`) |>
+  pivot_wider(names_from = Tipo, values_from = `Se considera indígena`) |>
+  rename(
+    id_state = `Clave de la entidad`,
+    state = Entidad,
+    pop_ind = Población,
+    pct_ind = Porcentaje
+  )
+
+# democracy index economist
+mx_dem_index <- tribble(
+  ~year, ~ranking, ~regime_type,
+  2010, 6.93, "Flawed democracy",
+  2011, 6.93, "Flawed democracy",
+  2012, 6.90, "Flawed democracy",
+  2013, 6.91, "Flawed democracy",
+  2014, 6.68, "Flawed democracy",
+  2015, 6.55, "Flawed democracy",
+  2016, 6.47, "Flawed democracy",
+  2017, 6.41, "Flawed democracy",
+  2018, 6.19, "Flawed democracy",
+  2019, 6.09, "Flawed democracy",
+  2020, 6.07, "Flawed democracy",
+  2021, 5.57, "Hybrid regime",
+  2022, 5.25, "Hybrid regime",
+  2023, 5.14, "Hybrid regime",
+  2024, 5.32, "Hybrid regime"
+)
 ```
 

@@ -23,7 +23,7 @@ presidential |>
   ggplot(aes(x = candidate, y = votes)) +
     geom_col(fill = "darkgrey") +
     theme_light() +
-    labs(x = "Candidate", y = "# of Votes")
+    labs(x = "Candidate", y = "# of Votes", title = "Popular Vote by Candidate", caption = "Author: Quinn Cowell | Date: 4.27.2025 | Source: INE, 2024")
 ```
 
 ```{r}
@@ -143,4 +143,5 @@ presidential |>
     labs(x = "State/District")
 
 ```
+
 

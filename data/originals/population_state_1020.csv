@@ -1,0 +1,65 @@
+State ID,State,Year,Population
+1,Aguascalientes,2010,1184996
+1,Aguascalientes,2020,1425607
+2,Baja California,2010,3155070
+2,Baja California,2020,3769020
+3,Baja California Sur,2010,637026
+3,Baja California Sur,2020,798447
+4,Campeche,2010,822441
+4,Campeche,2020,928363
+5,Coahuila de Zaragoza,2010,2748391
+5,Coahuila de Zaragoza,2020,3146771
+6,Colima,2010,650555
+6,Colima,2020,731391
+7,Chiapas,2010,4796580
+7,Chiapas,2020,5543828
+8,Chihuahua,2010,3406465
+8,Chihuahua,2020,3741869
+9,Ciudad de México,2010,8851080
+9,Ciudad de México,2020,9209944
+10,Durango,2010,1632934
+10,Durango,2020,1832650
+11,Guanajuato,2010,5486372
+11,Guanajuato,2020,6166934
+12,Guerrero,2010,3388768
+12,Guerrero,2020,3540685
+13,Hidalgo,2010,2665018
+13,Hidalgo,2020,3082841
+14,Jalisco,2010,7350682
+14,Jalisco,2020,8348151
+15,Estado de México,2010,15175862
+15,Estado de México,2020,16992418
+16,Michoacán de Ocampo,2010,4351037
+16,Michoacán de Ocampo,2020,4748846
+17,Morelos,2010,1777227
+17,Morelos,2020,1971520
+18,Nayarit,2010,1084979
+18,Nayarit,2020,1235456
+19,Nuevo León,2010,4653458
+19,Nuevo León,2020,5784442
+20,Oaxaca,2010,3801962
+20,Oaxaca,2020,4132148
+21,Puebla,2010,5779829
+21,Puebla,2020,6583278
+22,Querétaro,2010,1827937
+22,Querétaro,2020,2368467
+23,Quintana Roo,2010,1325578
+23,Quintana Roo,2020,1857985
+24,San Luis Potosí,2010,2585518
+24,San Luis Potosí,2020,2822255
+25,Sinaloa,2010,2767761
+25,Sinaloa,2020,3026943
+26,Sonora,2010,2662480
+26,Sonora,2020,2944840
+27,Tabasco,2010,2238603
+27,Tabasco,2020,2402598
+28,Tamaulipas,2010,3268554
+28,Tamaulipas,2020,3527735
+29,Tlaxcala,2010,1169936
+29,Tlaxcala,2020,1342977
+30,Veracruz de Ignacio de la Llave,2010,7643194
+30,Veracruz de Ignacio de la Llave,2020,8062579
+31,Yucatán,2010,1955577
+31,Yucatán,2020,2320898
+32,Zacatecas,2010,1490668
+32,Zacatecas,2020,1622138
