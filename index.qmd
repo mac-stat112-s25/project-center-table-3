@@ -196,17 +196,11 @@ mexico |>
 ```
 
 ```{r}
-mexico |>
-  left_join((income_16_22 |> group_by(state) |> summarise(avg_income = sum(income_quarterly_mxp))), join_by(name == state)) |>
-  ggplot() +
-  geom_sf(aes(fill = avg_income))
-
-income_16_22 |>
-  group_by(state) |> 
-  summarise(avg_income = sum(income_quarterly_mxp)) |>
-  left_join(presidential_clean, join_by(state == state)) |>
-  group_by(state, avg_income) |>
-  summarise(pct_sheinbaum = sum(sheinbaum)/sum(total_votes)) |>
-  ggplot(aes(x = avg_income, y = pct_sheinbaum)) +
-  geom_point()
+indigenous_pop_24 |>
+  select(-id_state) |>
+  left_join((pres_percents |> select(-contains("cats"))), join_by(state == entity_state)) |>
+ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
+  geom_point() +
+  geom_smooth(method = "lm")
 ```
+
