@@ -38,7 +38,9 @@ presidential |>
     geom_col(position = "fill") +
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
     theme_light() +
-  labs(x = "Voted Abroad?", y = "Vote Share", fill = "Candidate", caption = "By Quinn Cowell, 4/27/2025, INE 2024", title = "Abroad voting vs. voting within mexico")
+  labs(x = "Voted Abroad?",
+       y = "Vote Share",
+       fill = "Candidate", caption = "By Quinn Cowell, 4/27/2025, INE 2024", title = "Abroad voting vs. voting within mexico", caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 
 ```{r}
@@ -49,7 +51,7 @@ presidential |>
   ggplot(aes(x = turnout)) +
     geom_density() +
     theme_light() +
-    labs(x = "Voter Turnout by Polling Place")
+    labs(x = "Voter Turnout by Polling Place", caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 
 ```{r}
@@ -96,7 +98,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_sheinbaum_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote", na.translate = FALSE)
+    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 ```{r}
 # plot Gálvez results
@@ -105,7 +108,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_galvez_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote", na.translate = FALSE)
+    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 ```{r}
 # plot Máynez results
@@ -114,7 +118,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_maynez_cats)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(6, "Oranges"), name = "% Vote", na.translate = FALSE)
+    scale_fill_manual(values = brewer.pal(6, "Oranges"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 
 ```{r}
@@ -140,7 +145,7 @@ presidential |>
     coord_flip() + 
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
     theme_light() +
-    labs(x = "State/District")
+    labs(x = "State/District", caption = "Author: Quinn Cowell | Source: INE, 2024")
 
 ```
 

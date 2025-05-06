@@ -179,3 +179,34 @@ mx_dem_index <- tribble(
 )
 ```
 
+```{r}
+indigenous_pop_24 |>
+  arrange(pct_ind)
+mexico |>
+  left_join(indigenous_pop_24, join_by(name == state)) |>
+  mutate(pct_ind_cat = 
+           cut(pct_ind,
+               breaks = seq(0, .70, by = .07)
+           )) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_ind_cat)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE)
+  
+```
+
+```{r}
+mexico |>
+  left_join((income_16_22 |> group_by(state) |> summarise(avg_income = sum(income_quarterly_mxp))), join_by(name == state)) |>
+  ggplot() +
+  geom_sf(aes(fill = avg_income))
+
+income_16_22 |>
+  group_by(state) |> 
+  summarise(avg_income = sum(income_quarterly_mxp)) |>
+  left_join(presidential_clean, join_by(state == state)) |>
+  group_by(state, avg_income) |>
+  summarise(pct_sheinbaum = sum(sheinbaum)/sum(total_votes)) |>
+  ggplot(aes(x = avg_income, y = pct_sheinbaum)) +
+  geom_point()
+```
