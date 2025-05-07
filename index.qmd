@@ -12,6 +12,8 @@ Your report will go here.
 # load presidential election data
 library(tidyverse)
 library(stringi)
+library(rnaturalearth)
+library(RColorBrewer)
 presidencial <- read_delim("data/presidential/PRES_2024.csv", delim = "|", skip = 6, locale = locale(encoding = "latin1"))
 
 presidential <- presidencial |>
@@ -54,6 +56,40 @@ presidential_clean <- presidential |>
   )
 
 # IGNORE THE ONE CALLED `presidential_clean.csv`!!!!!!!
+
+# presidential election percentages dataset
+pres_percents <- presidential |>
+  group_by(entity_state) |>
+  summarise(
+    tot_sheinbaum = sum(sheinbaum), 
+    tot_galvez = sum(galvez), 
+    tot_maynez = sum(maynez), 
+    total_votes = sum(total_votes)) |>
+  mutate(
+    pct_sheinbaum = tot_sheinbaum/total_votes, 
+    pct_galvez = tot_galvez/total_votes, 
+    pct_maynez = tot_maynez/total_votes) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(-starts_with("tot")) |>
+  mutate(pct_sheinbaum_cats = 
+          cut(pct_sheinbaum,
+              breaks = seq(.4, .85, by = .05),
+              labels = c("40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%"),
+              include.lowest = TRUE
+         ), 
+         pct_galvez_cats =
+          cut(pct_galvez,
+              breaks = seq(.1, .5, by = .05),
+              labels = c("10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%"),
+              include.lowest = TRUE
+         ),
+         pct_maynez_cats =
+           cut(pct_maynez,
+               breaks = seq(.05, .25, by = .03),
+               labels = c("5%", "8%", "11%", "14%", "17%", "20%"),
+               include.lowest = TRUE
+         ))
 
 # now we're going to upload and clean some statistical data from Mexico
 # population by state
@@ -177,6 +213,9 @@ mx_dem_index <- tribble(
   2023, 5.14, "Hybrid regime",
   2024, 5.32, "Hybrid regime"
 )
+
+#mexico map
+mexico <- ne_states(country = "Mexico")
 ```
 
 ```{r}
@@ -255,13 +294,10 @@ ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
 ```
 
 ```{r}
-# Preview it
-head(income_state_1622)
-
 # Calculate the average income per state across all years
-income_avg <- income_state_1622 %>%
-  group_by(State) %>%
-  summarise(avg_income = mean(Quarterly.Income, na.rm = TRUE))
+income_avg <- income_16_22 %>%
+  group_by(state) %>%
+  summarise(avg_income = mean(income_quarterly_mxp, na.rm = TRUE))
 
 # Get a shapefile or geometry of Mexican states
 # We'll use rnaturalearth for a quick version
@@ -278,10 +314,10 @@ mexico <- ne_states(country = "Mexico", returnclass = "sf")
 # Join your income data with the Mexico shapefile
 mexico_income <- mexico %>%
   left_join((income_avg|>mutate(
-      State = str_replace(State, "Ciudad de México","Distrito Federal"),
-    State = str_replace(State, " de Zaragoza",""),
-    State = str_replace(State, " de Ocampo",""),
-    State = str_replace(State, " de Ignacio de la Llave",""))), by = c("name" = "State"))
+    state = str_replace(state, "Ciudad de México","Distrito Federal"),
+    state = str_replace(state, " de Zaragoza",""),
+    state = str_replace(state, " de Ocampo",""),
+    state = str_replace(state, " de Ignacio de la Llave",""))), by = c("name" = "state"))
  
 # Plot the choropleth
 ggplot(mexico_income) +
