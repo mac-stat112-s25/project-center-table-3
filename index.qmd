@@ -207,7 +207,7 @@ mx_dem_index |>
            size = 3) +
   geom_point(x = 2018, y = 6.19, size = 2) +
   theme_light() +
-  labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group, 2024")
+  labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group 2024")
 ```
 
 
@@ -218,12 +218,14 @@ mexico |>
   left_join(indigenous_pop_24, join_by(name == state)) |>
   mutate(pct_ind_cat = 
            cut(pct_ind,
-               breaks = seq(0, .70, by = .07)
+               breaks = c(0, .07, .11, .16, .26, .36, .48, .70),
+               labels = c("2%-7%", "7%-11%", "11%-16%", "16%-26%", "26%-36%", "36%-48%", "48%-69%")
            )) |>
   ggplot() +
     geom_sf(aes(fill = pct_ind_cat)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE)
+    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
+    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INEGI 2020")
   
 ```
 
@@ -233,12 +235,13 @@ indigenous_pop_24 |>
   left_join((pres_percents |> select(-contains("cats"))), join_by(state == entity_state)) |>
 ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  theme_light()
+  theme_light() +
+  scale_x_continuous(breaks = seq(0, .8, by = .2), labels = c("0%", "20%", "40%", "60%", "80%")) +
+  scale_y_continuous(breaks = seq(.4, .9, by = .1),labels = c("40%", "50%", "60%", "70%", "80%", "90%")) +
+  labs(title = "% Sheinbaum vote vs. % Indigenous, by State",
+       caption = "Author: Quinn Cowell | Source: INE 2024, INEGI 2020",
+       x  = "% Indigenous",
+       y = "% Sheinbaum")
 ```
 
-```{r}
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-p + annotate("text", x = 4, y = 25, label = "Some text")
-```
 
