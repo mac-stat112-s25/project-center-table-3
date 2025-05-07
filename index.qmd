@@ -224,8 +224,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_ind_cat)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
-    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
+    scale_fill_manual(values = brewer.pal(7, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
+    labs(title = "% Self-identified Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
   
 ```
 
