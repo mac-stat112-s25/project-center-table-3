@@ -22,7 +22,7 @@ presidential |>
   pivot_longer(cols = 1:3, names_to = "candidate", values_to = "votes") |>
   ggplot(aes(x = candidate, y = votes)) +
     geom_col(fill = "darkgrey") +
-    theme_light() +
+    theme_minimal() +
     labs(x = "Candidate", y = "# of Votes", title = "Popular Vote by Candidate", caption = "Author: Quinn Cowell | Date: 4.27.2025 | Source: INE, 2024")
 ```
 
@@ -37,10 +37,10 @@ presidential |>
   ggplot(aes(x = vote_abroad, y = votes, fill = candidate)) +
     geom_col(position = "fill") +
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
-    theme_light() +
+    theme_minimal() +
   labs(x = "Voted Abroad?",
        y = "Vote Share",
-       fill = "Candidate", caption = "By Quinn Cowell, 4/27/2025, INE 2024", title = "Abroad voting vs. voting within mexico", caption = "Author: Quinn Cowell | Source: INE, 2024")
+       fill = "Candidate", title = "Abroad voting vs. voting within mexico", caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 
 ```{r}
@@ -50,7 +50,7 @@ presidential |>
   mutate(turnout = total_votes/eligible_voters) |>
   ggplot(aes(x = turnout)) +
     geom_density() +
-    theme_light() +
+    theme_minimal() +
     labs(x = "Voter Turnout by Polling Place", caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 
@@ -144,7 +144,7 @@ presidential |>
     geom_col(position = "fill") +
     coord_flip() + 
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
-    theme_light() +
+    theme_minimal() +
     labs(x = "State/District", caption = "Author: Quinn Cowell | Source: INE, 2024")
 
 ```

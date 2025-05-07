@@ -206,7 +206,7 @@ mx_dem_index |>
            y = 6.3,
            size = 3) +
   geom_point(x = 2018, y = 6.19, size = 2) +
-  theme_light() +
+  theme_minimal() +
   labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group 2024")
 ```
 
@@ -225,7 +225,7 @@ mexico |>
     geom_sf(aes(fill = pct_ind_cat)) +
     theme_void() +
     scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
-    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INEGI 2020")
+    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
   
 ```
 
@@ -235,11 +235,11 @@ indigenous_pop_24 |>
   left_join((pres_percents |> select(-contains("cats"))), join_by(state == entity_state)) |>
 ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
   geom_point() +
-  theme_light() +
+  theme_minimal() +
   scale_x_continuous(breaks = seq(0, .8, by = .2), labels = c("0%", "20%", "40%", "60%", "80%")) +
   scale_y_continuous(breaks = seq(.4, .9, by = .1),labels = c("40%", "50%", "60%", "70%", "80%", "90%")) +
   labs(title = "% Sheinbaum vote vs. % Indigenous, by State",
-       caption = "Author: Quinn Cowell | Source: INE 2024, INEGI 2020",
+       caption = "Author: Quinn Cowell | Source: INE 2024, INPI 2020",
        x  = "% Indigenous",
        y = "% Sheinbaum")
 ```
