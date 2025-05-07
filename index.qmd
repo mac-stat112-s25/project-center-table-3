@@ -208,7 +208,7 @@ mx_dem_index |>
            fontface = "italic") +
   annotate("text",
            label = "AMLO elected",
-           x = 2018.9,
+           x = 2018.95,
            y = 6.3,
            size = 3) +
   geom_point(x = 2018, y = 6.19, size = 2) +
@@ -230,8 +230,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_ind_cat)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
-    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
+    scale_fill_manual(values = brewer.pal(7, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
+    labs(title = "% Self-identified Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
   
 ```
 
