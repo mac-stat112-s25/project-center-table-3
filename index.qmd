@@ -6,6 +6,16 @@ code-fold: false  # change to true to fold the code chunks
 ---
 
 Your report will go here.
+```{r}
+#TITLE
+```
+
+```{r}
+#Background info on election
+```
+
+
+
 
 ```{r}
 # putting all the data shit in one chunk so we can collapse it more easily later
@@ -288,6 +298,66 @@ ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
        x  = "% Indigenous",
        y = "% Sheinbaum")
 ```
+```{r}
+#explaining crime graphs
+```
+
+
+```{r}
+# Preview
+head(violent_crimes_18_23)
+
+# Average violent crimes per state across all years
+crime_avg <- violent_crimes_18_23 %>%
+  group_by(state) %>%
+  summarise(avg_violent_crime = mean(tot_viol_crime, na.rm = TRUE))
+
+# Get Mexico shapefile
+mexico <- ne_states(country = "Mexico", returnclass = "sf")
+
+# Fix state names before merging
+crime_avg <- crime_avg %>%
+  mutate(state = state |>
+           str_replace("Ciudad de México", "Distrito Federal") |>
+           str_replace(" de Zaragoza", "") |>
+           str_replace(" de Ocampo", "") |>
+           str_replace(" de Ignacio de la Llave", "")
+         )
+# Merge spatial data
+mexico_crime <- mexico %>%
+  left_join(crime_avg, by = c("name" = "state"))
+
+# Plot the choropleth
+mexico |>
+left_join(combined_data, join_by(name == state)) |>
+ggplot() +
+  geom_sf(aes(fill = crime_rate))
+```
+```{r}
+# Step 1: Create combined_data
+combined_data <- combined_data |>  # (this "old" combined_data you had earlier)
+  left_join(
+    violent_crimes_18_23 |>
+      filter(year == 2023) |>
+      left_join(population_20, join_by(state == state)) |>
+      mutate(
+        crime_rate = (tot_viol_crime / pop) * 100000
+      ),
+    join_by(state == state)
+  )
+
+# Step 2: Plot it
+ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
+  geom_point() +
+  labs(
+    x = "Crime Rate (per 100,000 people)",
+    y = "Sheinbaum Vote %",
+    title = "Crime Rate vs Sheinbaum Vote % (2023)"
+  ) +
+  theme_minimal()
+```
+
+
 
 ```{r}
 #explaining income graphs
@@ -328,5 +398,113 @@ ggplot(mexico_income) +
     title = "Average Income by State in Mexico",
     fill = "Avg Income"
   )
+```
+```{r}
+# Step 1: Make sure names match
+# Clean state names in crime_avg
+crime_avg <- crime_avg %>%
+  mutate(state = state |> 
+           str_replace("Ciudad de México", "Distrito Federal") |> 
+           str_replace(" de Zaragoza", "") |> 
+           str_replace(" de Ocampo", "") |> 
+           str_replace(" de Ignacio de la Llave", "")
+         )
+
+# Step 2: Join the datasets
+combined_data <- crime_avg %>%
+  left_join(pres_percents, by = c("state" = "entity_state"))
+
+# Step 1: Create combined_data
+combined_data <- combined_data |>  # (this "old" combined_data you had earlier)
+  left_join(
+    violent_crimes_18_23 |>
+      filter(year == 2023) |>
+      left_join(population_20, join_by(state == state)) |>
+      mutate(
+        crime_rate = (tot_viol_crime / pop) * 100000
+      ),
+    join_by(state == state)
+  )
+
+# Combine combined_data and income_avg by matching 'state' and 'State'
+combined_data <- combined_data %>%
+  left_join(income_avg, by = c("state" = "State"))
+
+   
+ ggplot(combined_data, aes(x = avg_income, y = pct_sheinbaum)) +
+  geom_point() +
+  labs(
+    x = "Average Income",
+    y = "Sheinbaum Vote %",
+    title = "Income in a state vs. Sheinbaum Vote %"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+#Move into specific canidate votes per state
+```
+
+```{r}
+# what percentage did each candidate get in each state?
+pres_percents <- presidential |>
+  group_by(entity_state) |>
+  summarise(
+    tot_sheinbaum = sum(sheinbaum), 
+    tot_galvez = sum(galvez), 
+    tot_maynez = sum(maynez), 
+    total_votes = sum(total_votes)) |>
+  mutate(
+    pct_sheinbaum = tot_sheinbaum/total_votes, 
+    pct_galvez = tot_galvez/total_votes, 
+    pct_maynez = tot_maynez/total_votes) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(-starts_with("tot")) |>
+  mutate(pct_sheinbaum_cats = 
+          cut(pct_sheinbaum,
+              breaks = seq(.4, .85, by = .05),
+              labels = c("40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%"),
+              include.lowest = TRUE
+         ), 
+         pct_galvez_cats =
+          cut(pct_galvez,
+              breaks = seq(.1, .5, by = .05),
+              labels = c("10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%"),
+              include.lowest = TRUE
+         ),
+         pct_maynez_cats =
+           cut(pct_maynez,
+               breaks = seq(.05, .25, by = .03),
+               labels = c("5%", "8%", "11%", "14%", "17%", "20%"),
+               include.lowest = TRUE
+         ))
+
+# call map of states
+mexico <- ne_states(country = "Mexico")
+
+# plot Sheinbaum results
+mexico |>
+  left_join(pres_percents, join_by(name == entity_state)) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_sheinbaum_cats)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+
+```{r}
+# plot Gálvez results
+mexico |>
+  left_join(pres_percents, join_by(name == entity_state)) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_galvez_cats)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+```{r}
+#conclude
 ```
 
