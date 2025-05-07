@@ -5,7 +5,15 @@ execute:
 code-fold: false  # change to true to fold the code chunks
 ---
 
+
+
+
+
 Your report will go here.
+
+
+
+
 
 ```{r}
 # putting all the data shit in one chunk so we can collapse it more easily later
@@ -183,7 +191,6 @@ mx_dem_index <- tribble(
 #explaining indigenous graphs
 ```
 
-
 ```{r}
 # democracy 
 mx_dem_index |>
@@ -216,7 +223,6 @@ mx_dem_index |>
   labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group 2024")
 ```
 
-
 ```{r}
 indigenous_pop_24 |>
   arrange(pct_ind)
@@ -230,8 +236,8 @@ mexico |>
   ggplot() +
     geom_sf(aes(fill = pct_ind_cat)) +
     theme_void() +
-    scale_fill_manual(values = brewer.pal(7, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
-    labs(title = "% Self-identified Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
+    scale_fill_manual(values = brewer.pal(9, "BuGn"), name = "% Indigenous", na.translate = FALSE) +
+    labs(title = "% Indigenous by State in Mexico", caption = "Author: Quinn Cowell | Source: INPI 2020")
   
 ```
 
