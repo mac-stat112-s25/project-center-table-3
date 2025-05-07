@@ -143,6 +143,7 @@ presidential |>
   mutate(Candidate = fct_relevel(Candidate, c("Sheinbaum", "Gálvez", "Máynez"))) |>
   ggplot(aes(x = entity_state, y = `Vote Share`, fill = Candidate)) +
     geom_col(position = "fill") +
+    scale_y_continuous(name = "Vote Share", breaks = c(0, .25, .5, .75, 1), labels = c("0%", "25%", "50%", "75%", "100%")) +
     coord_flip() + 
     scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
     theme_minimal() +
