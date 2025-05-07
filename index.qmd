@@ -178,6 +178,38 @@ mx_dem_index <- tribble(
   2024, 5.32, "Hybrid regime"
 )
 ```
+```{r}
+# democracy 
+mx_dem_index |>
+  ggplot(aes(x = year, y = ranking)) +
+  geom_abline(slope = 0, intercept = 6.0, color = "grey", linetype = 5) +
+  geom_line() +
+  scale_y_continuous(name = "Score", breaks = c(4, 5, 6, 7, 8), limits = c(4, 8)) +
+  scale_x_continuous(name = "Year", breaks = c(2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024)) +
+  annotate("text", 
+           label = "Flawed democracy", 
+           x = 2017.5, 
+           y = 7.25, 
+           size = 4.5, 
+           color = "grey", 
+           fontface = "italic") +
+  annotate("text", 
+           label = "Hybrid regime", 
+           x = 2017.5, 
+           y = 5.25, 
+           size = 4.5, 
+           color = "grey", 
+           fontface = "italic") +
+  annotate("text",
+           label = "AMLO elected",
+           x = 2018.9,
+           y = 6.3,
+           size = 3) +
+  geom_point(x = 2018, y = 6.19, size = 2) +
+  theme_light() +
+  labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group, 2024")
+```
+
 
 ```{r}
 indigenous_pop_24 |>
@@ -201,6 +233,12 @@ indigenous_pop_24 |>
   left_join((pres_percents |> select(-contains("cats"))), join_by(state == entity_state)) |>
 ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
   geom_point() +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm") +
+  theme_light()
+```
+
+```{r}
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotate("text", x = 4, y = 25, label = "Some text")
 ```
 
