@@ -198,6 +198,12 @@ cookieconsent.run({
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Quinn C</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./src/eda/Isaiah-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Isaiah R.</span></span></a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -250,7 +256,7 @@ cookieconsent.run({
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Tuesday, April 22, 2025</p>
+      <p class="date">Wednesday, May 7, 2025</p>
     </div>
   </div>
   
@@ -261,21 +267,19 @@ cookieconsent.run({
 
 </header><p>Your report will go here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#TITLE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(stringi)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>presidencial <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/presidential/PRES_2024.csv"</span>, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">skip =</span> <span class="dv">6</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"latin1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#Background info on election</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># putting all the data shit in one chunk so we can collapse it more easily later</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># load presidential election data</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">library</span>(stringi)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>presidencial <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/presidential/PRES_2024.csv"</span>, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">skip =</span> <span class="dv">6</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"latin1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 170766 Columns: 34
 ── Column specification ────────────────────────────────────────────────────────
@@ -286,8 +290,6 @@ dbl  (3): TIPO_ACTA, TOTAL_VOTOS_CALCULADOS, LISTA_NOMINAL
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-</div>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>presidential <span class="ot">&lt;-</span> presidencial <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">rename</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="at">casilla_code =</span> CLAVE_CASILLA,</span>
@@ -314,10 +316,571 @@ dbl  (3): TIPO_ACTA, TOTAL_VOTOS_CALCULADOS, LISTA_NOMINAL
 <span id="cb5-24"><a href="#cb5-24"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="dv">13</span><span class="sc">:</span><span class="dv">31</span>), as.numeric) <span class="sc">|&gt;</span></span>
 <span id="cb5-25"><a href="#cb5-25"></a>  <span class="fu">mutate</span>(<span class="at">sheinbaum =</span> PT <span class="sc">+</span> MORENA <span class="sc">+</span> PVEM_PT_MORENA <span class="sc">+</span> PVEM_PT <span class="sc">+</span> PVEM_MORENA <span class="sc">+</span> PT_MORENA <span class="sc">+</span> PVEM) <span class="sc">|&gt;</span></span>
 <span id="cb5-26"><a href="#cb5-26"></a>  <span class="fu">mutate</span>(<span class="at">galvez =</span> PAN <span class="sc">+</span> PAN_PRI_PRD <span class="sc">+</span> PAN_PRI <span class="sc">+</span> PAN_PRD <span class="sc">+</span> PRI <span class="sc">+</span> PRI_PRD <span class="sc">+</span> PRD) <span class="sc">|&gt;</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a>  <span class="fu">mutate</span>(<span class="at">maynez =</span> MC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-27"><a href="#cb5-27"></a>  <span class="fu">mutate</span>(<span class="at">maynez =</span> MC)</span>
+<span id="cb5-28"><a href="#cb5-28"></a></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co"># clean it again because i realized i wasn't htorough enough the first time but i used the original dataset in my eda</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a>presidential_clean <span class="ot">&lt;-</span> presidential <span class="sc">|&gt;</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a>  <span class="fu">mutate</span>(<span class="at">casilla =</span> <span class="fu">fct_recode</span>(casilla, <span class="st">"Non-urban"</span> <span class="ot">=</span> <span class="st">"No Urbana"</span>, <span class="st">"Urban"</span> <span class="ot">=</span> <span class="st">"Urbana"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a>  <span class="fu">select</span>(casilla_code, acta_code, ID_entity, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez) <span class="sc">|&gt;</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a>  <span class="fu">rename</span>(</span>
+<span id="cb5-36"><a href="#cb5-36"></a>    <span class="at">id_state =</span> ID_entity,</span>
+<span id="cb5-37"><a href="#cb5-37"></a>    <span class="at">state =</span> entity_state</span>
+<span id="cb5-38"><a href="#cb5-38"></a>  )</span>
+<span id="cb5-39"><a href="#cb5-39"></a></span>
+<span id="cb5-40"><a href="#cb5-40"></a><span class="co"># IGNORE THE ONE CALLED `presidential_clean.csv`!!!!!!!</span></span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a><span class="co"># presidential election percentages dataset</span></span>
+<span id="cb5-43"><a href="#cb5-43"></a>pres_percents <span class="ot">&lt;-</span> presidential <span class="sc">|&gt;</span></span>
+<span id="cb5-44"><a href="#cb5-44"></a>  <span class="fu">group_by</span>(entity_state) <span class="sc">|&gt;</span></span>
+<span id="cb5-45"><a href="#cb5-45"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-46"><a href="#cb5-46"></a>    <span class="at">tot_sheinbaum =</span> <span class="fu">sum</span>(sheinbaum), </span>
+<span id="cb5-47"><a href="#cb5-47"></a>    <span class="at">tot_galvez =</span> <span class="fu">sum</span>(galvez), </span>
+<span id="cb5-48"><a href="#cb5-48"></a>    <span class="at">tot_maynez =</span> <span class="fu">sum</span>(maynez), </span>
+<span id="cb5-49"><a href="#cb5-49"></a>    <span class="at">total_votes =</span> <span class="fu">sum</span>(total_votes)) <span class="sc">|&gt;</span></span>
+<span id="cb5-50"><a href="#cb5-50"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-51"><a href="#cb5-51"></a>    <span class="at">pct_sheinbaum =</span> tot_sheinbaum<span class="sc">/</span>total_votes, </span>
+<span id="cb5-52"><a href="#cb5-52"></a>    <span class="at">pct_galvez =</span> tot_galvez<span class="sc">/</span>total_votes, </span>
+<span id="cb5-53"><a href="#cb5-53"></a>    <span class="at">pct_maynez =</span> tot_maynez<span class="sc">/</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb5-54"><a href="#cb5-54"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb5-55"><a href="#cb5-55"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-56"><a href="#cb5-56"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"tot"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-57"><a href="#cb5-57"></a>  <span class="fu">mutate</span>(<span class="at">pct_sheinbaum_cats =</span> </span>
+<span id="cb5-58"><a href="#cb5-58"></a>          <span class="fu">cut</span>(pct_sheinbaum,</span>
+<span id="cb5-59"><a href="#cb5-59"></a>              <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">4</span>, .<span class="dv">85</span>, <span class="at">by =</span> .<span class="dv">05</span>),</span>
+<span id="cb5-60"><a href="#cb5-60"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"40%"</span>, <span class="st">"45%"</span>, <span class="st">"50%"</span>, <span class="st">"55%"</span>, <span class="st">"60%"</span>, <span class="st">"65%"</span>, <span class="st">"70%"</span>, <span class="st">"75%"</span>, <span class="st">"80%"</span>),</span>
+<span id="cb5-61"><a href="#cb5-61"></a>              <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-62"><a href="#cb5-62"></a>         ), </span>
+<span id="cb5-63"><a href="#cb5-63"></a>         <span class="at">pct_galvez_cats =</span></span>
+<span id="cb5-64"><a href="#cb5-64"></a>          <span class="fu">cut</span>(pct_galvez,</span>
+<span id="cb5-65"><a href="#cb5-65"></a>              <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">1</span>, .<span class="dv">5</span>, <span class="at">by =</span> .<span class="dv">05</span>),</span>
+<span id="cb5-66"><a href="#cb5-66"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"10%"</span>, <span class="st">"15%"</span>, <span class="st">"20%"</span>, <span class="st">"25%"</span>, <span class="st">"30%"</span>, <span class="st">"35%"</span>, <span class="st">"40%"</span>, <span class="st">"45%"</span>),</span>
+<span id="cb5-67"><a href="#cb5-67"></a>              <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-68"><a href="#cb5-68"></a>         ),</span>
+<span id="cb5-69"><a href="#cb5-69"></a>         <span class="at">pct_maynez_cats =</span></span>
+<span id="cb5-70"><a href="#cb5-70"></a>           <span class="fu">cut</span>(pct_maynez,</span>
+<span id="cb5-71"><a href="#cb5-71"></a>               <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">05</span>, .<span class="dv">25</span>, <span class="at">by =</span> .<span class="dv">03</span>),</span>
+<span id="cb5-72"><a href="#cb5-72"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"5%"</span>, <span class="st">"8%"</span>, <span class="st">"11%"</span>, <span class="st">"14%"</span>, <span class="st">"17%"</span>, <span class="st">"20%"</span>),</span>
+<span id="cb5-73"><a href="#cb5-73"></a>               <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-74"><a href="#cb5-74"></a>         ))</span>
+<span id="cb5-75"><a href="#cb5-75"></a></span>
+<span id="cb5-76"><a href="#cb5-76"></a><span class="co"># now we're going to upload and clean some statistical data from Mexico</span></span>
+<span id="cb5-77"><a href="#cb5-77"></a><span class="co"># population by state</span></span>
+<span id="cb5-78"><a href="#cb5-78"></a>population_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/population_state_1020.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 64 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): State
+dbl (3): State ID, Year, Population
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>population_20 <span class="ot">&lt;-</span> population_messy <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>  <span class="fu">rename</span>(</span>
+<span id="cb7-10"><a href="#cb7-10"></a>    <span class="at">state =</span> State,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>    <span class="at">pop =</span> Population</span>
+<span id="cb7-14"><a href="#cb7-14"></a>  )</span>
+<span id="cb7-15"><a href="#cb7-15"></a></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># quarterly income by state and year (MXP)</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>income_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/income_state_1622.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 128 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): State
+dbl (3): State ID, Year, Quarterly Income
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>income_16_22 <span class="ot">&lt;-</span> income_messy <span class="sc">|&gt;</span> <span class="co"># keeping year-by-year data as possible analysis tool</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">rename</span>(</span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="at">state =</span> State,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="at">income_quarterly_mxp =</span> <span class="st">`</span><span class="at">Quarterly Income</span><span class="st">`</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>  )</span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># violent crime by state (data in Spanish)</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>crimes_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/crimes_state_1524.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 12800 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Crime Type, State
+dbl (4): Year, Crime Type ID, State ID, Value
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>violent_crimes_18_23 <span class="ot">&lt;-</span> crimes_messy<span class="sc">|&gt;</span> <span class="co"># we only want crime data from 2023 as it was before the election, possible avg after 2018</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb11-7"><a href="#cb11-7"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">filter</span>(Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>)) <span class="sc">|&gt;</span> <span class="co">#removing data pre-AMLO + election years</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="co"># we will be using the FBI's definition of violent crime to filter the list</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Crime Type</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Robo"</span>, </span>
+<span id="cb11-11"><a href="#cb11-11"></a>                             <span class="st">"Violación Equiparada"</span>, </span>
+<span id="cb11-12"><a href="#cb11-12"></a>                             <span class="st">"Violación Simple"</span>, </span>
+<span id="cb11-13"><a href="#cb11-13"></a>                             <span class="st">"Homicidio"</span>, </span>
+<span id="cb11-14"><a href="#cb11-14"></a>                             <span class="st">"Lesiones"</span>, </span>
+<span id="cb11-15"><a href="#cb11-15"></a>                             <span class="st">"Otros Delitos que Atentan contra la Vida y la Integridad Corporal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a>  <span class="fu">group_by</span>(State, Year, <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a>  <span class="fu">summarise</span>(<span class="at">tot_viol_crime =</span> <span class="fu">sum</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a>  <span class="fu">rename</span>(</span>
+<span id="cb11-19"><a href="#cb11-19"></a>    <span class="at">state =</span> State,</span>
+<span id="cb11-20"><a href="#cb11-20"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb11-21"><a href="#cb11-21"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span></span>
+<span id="cb11-22"><a href="#cb11-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'State', 'Year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># indigenous mexicans (by state, those who speak an indigenous language)</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># ¡UNZIP mx_census_2020.csv ZIP FILE TO RUN!</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># census_messy &lt;- read_csv("data/originals/mx_census_2020.csv")</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># census_messy |&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co">#   filter(NOM_LOC == "Total de la Entidad") |&gt; # census totals by state</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="co">#   mutate(</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, "Ciudad de México", "Distrito Federal"),</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Zaragoza", ""),</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Ocampo", ""),</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Ignacio de la Llave", "")) |&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="co">#   select(1:2, 10, 124:139) |&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="co">#   select(-contains("AFRO"), -ends_with("_M"), -ends_with("_F")) |&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="co">#   rename(</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="co">#     id_state = ENTIDAD,</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a><span class="co">#     state = NOM_ENT,</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a><span class="co">#     tot_pop = POBTOT,</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="co">#     indigenous_hh = PHOG_IND</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a><span class="co">#   ) |&gt;</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a><span class="co">#   mutate_at(vars(4:10), as.numeric) |&gt;</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#   mutate(pct_indigenous = (indigenous_hh/tot_pop)*100)</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a></span>
+<span id="cb13-22"><a href="#cb13-22"></a><span class="co"># import second indigenous dataset idfk (those who self-identify as indigenous)</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb13-24"><a href="#cb13-24"></a>indigenous_messy <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/originals/1-poblacion-indigena-autoadscrita-nacional-y-por-entidad-federativa-muestra-censal-2020.xlsx"</span>, </span>
+<span id="cb13-25"><a href="#cb13-25"></a>    <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb13-26"><a href="#cb13-26"></a>indigenous_pop_24 <span class="ot">&lt;-</span> indigenous_messy <span class="sc">|&gt;</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Entidad)) <span class="sc">|&gt;</span></span>
+<span id="cb13-28"><a href="#cb13-28"></a>  <span class="fu">filter</span>(Entidad <span class="sc">!=</span> <span class="st">"Estados Unidos Mexicanos"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-30"><a href="#cb13-30"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb13-31"><a href="#cb13-31"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb13-32"><a href="#cb13-32"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb13-33"><a href="#cb13-33"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-34"><a href="#cb13-34"></a>  <span class="fu">filter</span>(Estimador <span class="sc">==</span> <span class="st">"Estimación"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Clave de la entidad</span><span class="st">`</span>, Entidad, Tipo, <span class="st">`</span><span class="at">Se considera indígena</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-36"><a href="#cb13-36"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Tipo, <span class="at">values_from =</span> <span class="st">`</span><span class="at">Se considera indígena</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-37"><a href="#cb13-37"></a>  <span class="fu">rename</span>(</span>
+<span id="cb13-38"><a href="#cb13-38"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">Clave de la entidad</span><span class="st">`</span>,</span>
+<span id="cb13-39"><a href="#cb13-39"></a>    <span class="at">state =</span> Entidad,</span>
+<span id="cb13-40"><a href="#cb13-40"></a>    <span class="at">pop_ind =</span> Población,</span>
+<span id="cb13-41"><a href="#cb13-41"></a>    <span class="at">pct_ind =</span> Porcentaje</span>
+<span id="cb13-42"><a href="#cb13-42"></a>  )</span>
+<span id="cb13-43"><a href="#cb13-43"></a></span>
+<span id="cb13-44"><a href="#cb13-44"></a><span class="co"># democracy index economist</span></span>
+<span id="cb13-45"><a href="#cb13-45"></a>mx_dem_index <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb13-46"><a href="#cb13-46"></a>  <span class="sc">~</span>year, <span class="sc">~</span>ranking, <span class="sc">~</span>regime_type,</span>
+<span id="cb13-47"><a href="#cb13-47"></a>  <span class="dv">2010</span>, <span class="fl">6.93</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-48"><a href="#cb13-48"></a>  <span class="dv">2011</span>, <span class="fl">6.93</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-49"><a href="#cb13-49"></a>  <span class="dv">2012</span>, <span class="fl">6.90</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50"></a>  <span class="dv">2013</span>, <span class="fl">6.91</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-51"><a href="#cb13-51"></a>  <span class="dv">2014</span>, <span class="fl">6.68</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-52"><a href="#cb13-52"></a>  <span class="dv">2015</span>, <span class="fl">6.55</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-53"><a href="#cb13-53"></a>  <span class="dv">2016</span>, <span class="fl">6.47</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-54"><a href="#cb13-54"></a>  <span class="dv">2017</span>, <span class="fl">6.41</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-55"><a href="#cb13-55"></a>  <span class="dv">2018</span>, <span class="fl">6.19</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-56"><a href="#cb13-56"></a>  <span class="dv">2019</span>, <span class="fl">6.09</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-57"><a href="#cb13-57"></a>  <span class="dv">2020</span>, <span class="fl">6.07</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb13-58"><a href="#cb13-58"></a>  <span class="dv">2021</span>, <span class="fl">5.57</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb13-59"><a href="#cb13-59"></a>  <span class="dv">2022</span>, <span class="fl">5.25</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb13-60"><a href="#cb13-60"></a>  <span class="dv">2023</span>, <span class="fl">5.14</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb13-61"><a href="#cb13-61"></a>  <span class="dv">2024</span>, <span class="fl">5.32</span>, <span class="st">"Hybrid regime"</span></span>
+<span id="cb13-62"><a href="#cb13-62"></a>)</span>
+<span id="cb13-63"><a href="#cb13-63"></a></span>
+<span id="cb13-64"><a href="#cb13-64"></a><span class="co">#mexico map</span></span>
+<span id="cb13-65"><a href="#cb13-65"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">write_csv</span>(presidential, <span class="st">"presidential_clean.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># democracy </span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>mx_dem_index <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ranking)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">0</span>, <span class="at">intercept =</span> <span class="fl">6.0</span>, <span class="at">color =</span> <span class="st">"grey"</span>, <span class="at">linetype =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Score"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"Year"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2012</span>, <span class="dv">2014</span>, <span class="dv">2016</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb14-9"><a href="#cb14-9"></a>           <span class="at">label =</span> <span class="st">"Flawed democracy"</span>, </span>
+<span id="cb14-10"><a href="#cb14-10"></a>           <span class="at">x =</span> <span class="fl">2017.5</span>, </span>
+<span id="cb14-11"><a href="#cb14-11"></a>           <span class="at">y =</span> <span class="fl">7.25</span>, </span>
+<span id="cb14-12"><a href="#cb14-12"></a>           <span class="at">size =</span> <span class="fl">4.5</span>, </span>
+<span id="cb14-13"><a href="#cb14-13"></a>           <span class="at">color =</span> <span class="st">"grey"</span>, </span>
+<span id="cb14-14"><a href="#cb14-14"></a>           <span class="at">fontface =</span> <span class="st">"italic"</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb14-16"><a href="#cb14-16"></a>           <span class="at">label =</span> <span class="st">"Hybrid regime"</span>, </span>
+<span id="cb14-17"><a href="#cb14-17"></a>           <span class="at">x =</span> <span class="fl">2017.5</span>, </span>
+<span id="cb14-18"><a href="#cb14-18"></a>           <span class="at">y =</span> <span class="fl">5.25</span>, </span>
+<span id="cb14-19"><a href="#cb14-19"></a>           <span class="at">size =</span> <span class="fl">4.5</span>, </span>
+<span id="cb14-20"><a href="#cb14-20"></a>           <span class="at">color =</span> <span class="st">"grey"</span>, </span>
+<span id="cb14-21"><a href="#cb14-21"></a>           <span class="at">fontface =</span> <span class="st">"italic"</span>) <span class="sc">+</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb14-23"><a href="#cb14-23"></a>           <span class="at">label =</span> <span class="st">"AMLO elected"</span>,</span>
+<span id="cb14-24"><a href="#cb14-24"></a>           <span class="at">x =</span> <span class="fl">2018.95</span>,</span>
+<span id="cb14-25"><a href="#cb14-25"></a>           <span class="at">y =</span> <span class="fl">6.3</span>,</span>
+<span id="cb14-26"><a href="#cb14-26"></a>           <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a>  <span class="fu">geom_point</span>(<span class="at">x =</span> <span class="dv">2018</span>, <span class="at">y =</span> <span class="fl">6.19</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-28"><a href="#cb14-28"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-29"><a href="#cb14-29"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Economist Democracy Score for Mexico, 2010-2024"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: Economist Group 2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># general election information</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># comparative state-by-state bar graph</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>presidential <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>    <span class="fu">group_by</span>(entity_state) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    <span class="at">tot_sheinbaum =</span> <span class="fu">sum</span>(sheinbaum), </span>
+<span id="cb16-6"><a href="#cb16-6"></a>    <span class="at">tot_galvez =</span> <span class="fu">sum</span>(galvez), </span>
+<span id="cb16-7"><a href="#cb16-7"></a>    <span class="at">tot_maynez =</span> <span class="fu">sum</span>(maynez),</span>
+<span id="cb16-8"><a href="#cb16-8"></a>    <span class="at">total_votes =</span> <span class="fu">sum</span>(total_votes))<span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-10"><a href="#cb16-10"></a>    <span class="at">Sheinbaum =</span> tot_sheinbaum<span class="sc">/</span>total_votes, </span>
+<span id="cb16-11"><a href="#cb16-11"></a>    Gálvez <span class="ot">=</span> tot_galvez<span class="sc">/</span>total_votes, </span>
+<span id="cb16-12"><a href="#cb16-12"></a>    Máynez <span class="ot">=</span> tot_maynez<span class="sc">/</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb16-14"><a href="#cb16-14"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"tot"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a>  <span class="fu">pivot_longer</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">names_to =</span> <span class="st">"Candidate"</span>, <span class="at">values_to =</span> <span class="st">"Vote Share"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a>  <span class="fu">mutate</span>(<span class="at">Candidate =</span> <span class="fu">fct_relevel</span>(Candidate, <span class="fu">c</span>(<span class="st">"Sheinbaum"</span>, <span class="st">"Gálvez"</span>, <span class="st">"Máynez"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> entity_state, <span class="at">y =</span> <span class="st">`</span><span class="at">Vote Share</span><span class="st">`</span>, <span class="at">fill =</span> Candidate)) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19"></a>    <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Vote Share"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0%"</span>, <span class="st">"25%"</span>, <span class="st">"50%"</span>, <span class="st">"75%"</span>, <span class="st">"100%"</span>)) <span class="sc">+</span></span>
+<span id="cb16-21"><a href="#cb16-21"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb16-22"><a href="#cb16-22"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Sheinbaum"</span> <span class="ot">=</span> <span class="st">"#b62218"</span>, <span class="st">"Gálvez"</span> <span class="ot">=</span> <span class="st">"#ef64bc"</span>, <span class="st">"Máynez"</span> <span class="ot">=</span> <span class="st">"#FF8C00"</span>)) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"State/District"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">#explaining indigenous graphs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>indigenous_pop_24 <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">arrange</span>(pct_ind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 4
+   id_state state            pop_ind pct_ind
+   &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;
+ 1 05       Coahuila           63417  0.0213
+ 2 32       Zacatecas          74582  0.0488
+ 3 01       Aguascalientes     83200  0.0617
+ 4 11       Guanajuato        372169  0.0639
+ 5 19       Nuevo León        352790  0.0640
+ 6 28       Tamaulipas        224210  0.0667
+ 7 14       Jalisco           557864  0.0704
+ 8 02       Baja California   285679  0.0797
+ 9 10       Durango           152793  0.0887
+10 09       Distrito Federal  825325  0.0928
+# ℹ 22 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">left_join</span>(indigenous_pop_24, <span class="fu">join_by</span>(name <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">mutate</span>(<span class="at">pct_ind_cat =</span> </span>
+<span id="cb20-4"><a href="#cb20-4"></a>           <span class="fu">cut</span>(pct_ind,</span>
+<span id="cb20-5"><a href="#cb20-5"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">07</span>, .<span class="dv">11</span>, .<span class="dv">16</span>, .<span class="dv">26</span>, .<span class="dv">36</span>, .<span class="dv">48</span>, .<span class="dv">70</span>),</span>
+<span id="cb20-6"><a href="#cb20-6"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"2%-7%"</span>, <span class="st">"7%-11%"</span>, <span class="st">"11%-16%"</span>, <span class="st">"16%-26%"</span>, <span class="st">"26%-36%"</span>, <span class="st">"36%-48%"</span>, <span class="st">"48%-69%"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a>           )) <span class="sc">|&gt;</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_ind_cat)) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">7</span>, <span class="st">"BuGn"</span>), <span class="at">name =</span> <span class="st">"% Indigenous"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"% Self-identified Indigenous by State in Mexico"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INPI 2020"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>indigenous_pop_24 <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">select</span>(<span class="sc">-</span>id_state) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">left_join</span>((pres_percents <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">"cats"</span>))), <span class="fu">join_by</span>(state <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pct_ind, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, .<span class="dv">8</span>, <span class="at">by =</span> .<span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0%"</span>, <span class="st">"20%"</span>, <span class="st">"40%"</span>, <span class="st">"60%"</span>, <span class="st">"80%"</span>)) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">4</span>, .<span class="dv">9</span>, <span class="at">by =</span> .<span class="dv">1</span>),<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"40%"</span>, <span class="st">"50%"</span>, <span class="st">"60%"</span>, <span class="st">"70%"</span>, <span class="st">"80%"</span>, <span class="st">"90%"</span>)) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"% Sheinbaum vote vs. % Indigenous, by State"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10"></a>       <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE 2024, INPI 2020"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11"></a>       <span class="at">x  =</span> <span class="st">"% Indigenous"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12"></a>       <span class="at">y =</span> <span class="st">"% Sheinbaum"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#explaining crime graphs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Average violent crimes per state across all years</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>crime_avg <span class="ot">&lt;-</span> violent_crimes_18_23 <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="fu">summarise</span>(<span class="at">avg_violent_crime =</span> <span class="fu">mean</span>(tot_viol_crime, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb23-5"><a href="#cb23-5"></a></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="co"># Get Mexico shapefile</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8"></a></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="co"># Fix state names before merging</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>crime_avg <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> state <span class="sc">|&gt;</span></span>
+<span id="cb23-12"><a href="#cb23-12"></a>           <span class="fu">str_replace</span>(<span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-13"><a href="#cb23-13"></a>           <span class="fu">str_replace</span>(<span class="st">" de Zaragoza"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-14"><a href="#cb23-14"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ocampo"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-15"><a href="#cb23-15"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)</span>
+<span id="cb23-16"><a href="#cb23-16"></a>         )</span>
+<span id="cb23-17"><a href="#cb23-17"></a>combined_data <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb23-18"><a href="#cb23-18"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(state <span class="sc">==</span> entity_state))</span>
+<span id="cb23-19"><a href="#cb23-19"></a></span>
+<span id="cb23-20"><a href="#cb23-20"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span>  <span class="co"># (this "old" combined_data you had earlier)</span></span>
+<span id="cb23-21"><a href="#cb23-21"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb23-22"><a href="#cb23-22"></a>    violent_crimes_18_23 <span class="sc">|&gt;</span></span>
+<span id="cb23-23"><a href="#cb23-23"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-24"><a href="#cb23-24"></a>      <span class="fu">left_join</span>(population_20, <span class="fu">join_by</span>(state <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb23-25"><a href="#cb23-25"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb23-26"><a href="#cb23-26"></a>        <span class="at">crime_rate =</span> (tot_viol_crime <span class="sc">/</span> pop) <span class="sc">*</span> <span class="dv">100000</span></span>
+<span id="cb23-27"><a href="#cb23-27"></a>      ),</span>
+<span id="cb23-28"><a href="#cb23-28"></a>    <span class="fu">join_by</span>(state <span class="sc">==</span> state)</span>
+<span id="cb23-29"><a href="#cb23-29"></a>  )</span>
+<span id="cb23-30"><a href="#cb23-30"></a></span>
+<span id="cb23-31"><a href="#cb23-31"></a><span class="co"># Merge spatial data</span></span>
+<span id="cb23-32"><a href="#cb23-32"></a>mexico_crime <span class="ot">&lt;-</span> mexico <span class="sc">%&gt;%</span></span>
+<span id="cb23-33"><a href="#cb23-33"></a>  <span class="fu">left_join</span>(crime_avg, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb23-34"><a href="#cb23-34"></a></span>
+<span id="cb23-35"><a href="#cb23-35"></a><span class="co"># Plot the choropleth</span></span>
+<span id="cb23-36"><a href="#cb23-36"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb23-37"><a href="#cb23-37"></a><span class="fu">left_join</span>(combined_data, <span class="fu">join_by</span>(name <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb23-38"><a href="#cb23-38"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-39"><a href="#cb23-39"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> crime_rate)) <span class="sc">+</span></span>
+<span id="cb23-40"><a href="#cb23-40"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Step 2: Plot point plot</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">x =</span> crime_rate, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-5"><a href="#cb24-5"></a>    <span class="at">x =</span> <span class="st">"Crime Rate (per 100,000 people)"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6"></a>    <span class="at">y =</span> <span class="st">"Sheinbaum Vote %"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>    <span class="at">title =</span> <span class="st">"Crime Rate vs Sheinbaum Vote % (2023)"</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">#explaining income graphs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Calculate the average income per state across all years</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>income_avg <span class="ot">&lt;-</span> income_16_22 <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="fu">summarise</span>(<span class="at">avg_income =</span> <span class="fu">mean</span>(income_quarterly_mxp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="co"># Get a shapefile or geometry of Mexican states</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="co"># We'll use rnaturalearth for a quick version</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="fu">library</span>(rnaturalearthdata)</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a><span class="co"># Download Mexico map</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13"></a></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="co"># Check state names if necessary</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a> <span class="fu">unique</span>(mexico<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Sonora"              "Baja California"     "Chihuahua"          
+ [4] "Coahuila"            "Tamaulipas"          "Nuevo León"         
+ [7] "Quintana Roo"        "Campeche"            "Tabasco"            
+[10] "Chiapas"             "Colima"              "Nayarit"            
+[13] "Baja California Sur" "Sinaloa"             "Yucatán"            
+[16] "Veracruz"            "Jalisco"             "Michoacán"          
+[19] "Guerrero"            "Oaxaca"              NA                   
+[22] "México"              "Puebla"              "Morelos"            
+[25] "Querétaro"           "Hidalgo"             "Guanajuato"         
+[28] "San Luis Potosí"     "Zacatecas"           "Aguascalientes"     
+[31] "Durango"             "Tlaxcala"            "Distrito Federal"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a> <span class="fu">unique</span>(income_avg<span class="sc">$</span>state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Aguascalientes"      "Baja California"     "Baja California Sur"
+ [4] "Campeche"            "Chiapas"             "Chihuahua"          
+ [7] "Coahuila"            "Colima"              "Distrito Federal"   
+[10] "Durango"             "Guanajuato"          "Guerrero"           
+[13] "Hidalgo"             "Jalisco"             "Michoacán"          
+[16] "Morelos"             "México"              "Nayarit"            
+[19] "Nuevo León"          "Oaxaca"              "Puebla"             
+[22] "Querétaro"           "Quintana Roo"        "San Luis Potosí"    
+[25] "Sinaloa"             "Sonora"              "Tabasco"            
+[28] "Tamaulipas"          "Tlaxcala"            "Veracruz"           
+[31] "Yucatán"             "Zacatecas"          </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Join your income data with the Mexico shapefile</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>mexico_income <span class="ot">&lt;-</span> mexico <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">left_join</span>((income_avg<span class="sc">|&gt;</span><span class="fu">mutate</span>(</span>
+<span id="cb30-4"><a href="#cb30-4"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">"Ciudad de México"</span>,<span class="st">"Distrito Federal"</span>),</span>
+<span id="cb30-5"><a href="#cb30-5"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Zaragoza"</span>,<span class="st">""</span>),</span>
+<span id="cb30-6"><a href="#cb30-6"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Ocampo"</span>,<span class="st">""</span>),</span>
+<span id="cb30-7"><a href="#cb30-7"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Ignacio de la Llave"</span>,<span class="st">""</span>))), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb30-8"><a href="#cb30-8"></a> </span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co"># Plot the choropleth</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="fu">ggplot</span>(mexico_income) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> avg_income)) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">na.value =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb30-14"><a href="#cb30-14"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-15"><a href="#cb30-15"></a>    <span class="at">title =</span> <span class="st">"Average Income by State in Mexico"</span>,</span>
+<span id="cb30-16"><a href="#cb30-16"></a>    <span class="at">fill =</span> <span class="st">"Avg Income"</span></span>
+<span id="cb30-17"><a href="#cb30-17"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># Step 1: Make sure names match</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="co"># Clean state names in crime_avg</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a>crime_avg <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> state <span class="sc">|&gt;</span> </span>
+<span id="cb31-5"><a href="#cb31-5"></a>           <span class="fu">str_replace</span>(<span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-6"><a href="#cb31-6"></a>           <span class="fu">str_replace</span>(<span class="st">" de Zaragoza"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-7"><a href="#cb31-7"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ocampo"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-8"><a href="#cb31-8"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)</span>
+<span id="cb31-9"><a href="#cb31-9"></a>         )</span>
+<span id="cb31-10"><a href="#cb31-10"></a></span>
+<span id="cb31-11"><a href="#cb31-11"></a><span class="co"># Step 2: Join the datasets</span></span>
+<span id="cb31-12"><a href="#cb31-12"></a>combined_data <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb31-13"><a href="#cb31-13"></a>  <span class="fu">left_join</span>(pres_percents, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"state"</span> <span class="ot">=</span> <span class="st">"entity_state"</span>))</span>
+<span id="cb31-14"><a href="#cb31-14"></a></span>
+<span id="cb31-15"><a href="#cb31-15"></a><span class="co"># Step 1: Create combined_data</span></span>
+<span id="cb31-16"><a href="#cb31-16"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span>  <span class="co"># (this "old" combined_data you had earlier)</span></span>
+<span id="cb31-17"><a href="#cb31-17"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb31-18"><a href="#cb31-18"></a>    violent_crimes_18_23 <span class="sc">|&gt;</span></span>
+<span id="cb31-19"><a href="#cb31-19"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-20"><a href="#cb31-20"></a>      <span class="fu">left_join</span>(population_20, <span class="fu">join_by</span>(state <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb31-21"><a href="#cb31-21"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb31-22"><a href="#cb31-22"></a>        <span class="at">crime_rate =</span> (tot_viol_crime <span class="sc">/</span> pop) <span class="sc">*</span> <span class="dv">100000</span></span>
+<span id="cb31-23"><a href="#cb31-23"></a>      ),</span>
+<span id="cb31-24"><a href="#cb31-24"></a>    <span class="fu">join_by</span>(state <span class="sc">==</span> state)</span>
+<span id="cb31-25"><a href="#cb31-25"></a>  )</span>
+<span id="cb31-26"><a href="#cb31-26"></a></span>
+<span id="cb31-27"><a href="#cb31-27"></a><span class="co"># Combine combined_data and income_avg by matching 'state' and 'State'</span></span>
+<span id="cb31-28"><a href="#cb31-28"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">%&gt;%</span></span>
+<span id="cb31-29"><a href="#cb31-29"></a>  <span class="fu">left_join</span>(income_avg, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"state"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb31-30"><a href="#cb31-30"></a></span>
+<span id="cb31-31"><a href="#cb31-31"></a>   </span>
+<span id="cb31-32"><a href="#cb31-32"></a> <span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">x =</span> avg_income, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb31-33"><a href="#cb31-33"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb31-34"><a href="#cb31-34"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-35"><a href="#cb31-35"></a>    <span class="at">x =</span> <span class="st">"Average Income"</span>,</span>
+<span id="cb31-36"><a href="#cb31-36"></a>    <span class="at">y =</span> <span class="st">"Sheinbaum Vote %"</span>,</span>
+<span id="cb31-37"><a href="#cb31-37"></a>    <span class="at">title =</span> <span class="st">"Income in a state vs. Sheinbaum Vote %"</span></span>
+<span id="cb31-38"><a href="#cb31-38"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-39"><a href="#cb31-39"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">#Move into specific canidate votes per state (move to general election information)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># call map of states</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="co"># plot Sheinbaum results</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(name <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_sheinbaum_cats)) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>), <span class="at">name =</span> <span class="st">"% Vote"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># plot Gálvez results</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(name <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_galvez_cats)) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"RdPu"</span>), <span class="at">name =</span> <span class="st">"% Vote"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co">#conclude</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -951,56 +1514,510 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">---</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="an">title:</span><span class="co"> "Report"</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="an">execute:</span><span class="co"> </span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">  echo: true      # change to true to show the code</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="an">code-fold:</span><span class="co"> false  # change to true to fold the code chunks</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">---</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a>Your report will go here.</span>
-<span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="in">```{r}</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="fu">library</span>(stringi)</span>
-<span id="cb7-15"><a href="#cb7-15"></a>presidencial <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/presidential/PRES_2024.csv"</span>, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">skip =</span> <span class="dv">6</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"latin1"</span>))</span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="in">```</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="in">```{r}</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a>presidential <span class="ot">&lt;-</span> presidencial <span class="sc">|&gt;</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a>  <span class="fu">rename</span>(</span>
-<span id="cb7-22"><a href="#cb7-22"></a>    <span class="at">casilla_code =</span> CLAVE_CASILLA,</span>
-<span id="cb7-23"><a href="#cb7-23"></a>    <span class="at">acta_code =</span> CLAVE_ACTA,</span>
-<span id="cb7-24"><a href="#cb7-24"></a>    <span class="at">ID_entity =</span> ID_ENTIDAD,</span>
-<span id="cb7-25"><a href="#cb7-25"></a>    <span class="at">entity_state =</span> ENTIDAD,</span>
-<span id="cb7-26"><a href="#cb7-26"></a>    <span class="at">ID_federal_district =</span> ID_DISTRITO_FEDERAL,</span>
-<span id="cb7-27"><a href="#cb7-27"></a>    <span class="at">federal_district =</span> DISTRITO_FEDERAL,</span>
-<span id="cb7-28"><a href="#cb7-28"></a>    <span class="at">section =</span> SECCION,</span>
-<span id="cb7-29"><a href="#cb7-29"></a>    <span class="at">casilla_id =</span> ID_CASILLA,</span>
-<span id="cb7-30"><a href="#cb7-30"></a>    <span class="at">casilla_type =</span> TIPO_CASILLA,</span>
-<span id="cb7-31"><a href="#cb7-31"></a>    <span class="at">ext_contigua =</span> EXT_CONTIGUA,</span>
-<span id="cb7-32"><a href="#cb7-32"></a>    <span class="at">casilla =</span> CASILLA,</span>
-<span id="cb7-33"><a href="#cb7-33"></a>    <span class="at">acta_type =</span> TIPO_ACTA,</span>
-<span id="cb7-34"><a href="#cb7-34"></a>    <span class="at">independent =</span> <span class="st">`</span><span class="at">CANDIDATO/A NO REGISTRADO/A</span><span class="st">`</span>,</span>
-<span id="cb7-35"><a href="#cb7-35"></a>    <span class="at">null_votes =</span> <span class="st">`</span><span class="at">VOTOS NULOS</span><span class="st">`</span>,</span>
-<span id="cb7-36"><a href="#cb7-36"></a>    <span class="at">total_votes =</span> TOTAL_VOTOS_CALCULADOS,</span>
-<span id="cb7-37"><a href="#cb7-37"></a>    <span class="at">eligible_voters =</span> LISTA_NOMINAL,</span>
-<span id="cb7-38"><a href="#cb7-38"></a>    <span class="at">observations =</span> OBSERVACIONES,</span>
-<span id="cb7-39"><a href="#cb7-39"></a>    <span class="at">transfer_mechanism =</span> MECANISMOS_TRASLADO,</span>
-<span id="cb7-40"><a href="#cb7-40"></a>    <span class="at">date_time =</span> FECHA_HORA</span>
-<span id="cb7-41"><a href="#cb7-41"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb7-42"><a href="#cb7-42"></a>  <span class="fu">filter</span>(total_votes <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-43"><a href="#cb7-43"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="dv">13</span><span class="sc">:</span><span class="dv">31</span>), as.numeric) <span class="sc">|&gt;</span></span>
-<span id="cb7-44"><a href="#cb7-44"></a>  <span class="fu">mutate</span>(<span class="at">sheinbaum =</span> PT <span class="sc">+</span> MORENA <span class="sc">+</span> PVEM_PT_MORENA <span class="sc">+</span> PVEM_PT <span class="sc">+</span> PVEM_MORENA <span class="sc">+</span> PT_MORENA <span class="sc">+</span> PVEM) <span class="sc">|&gt;</span></span>
-<span id="cb7-45"><a href="#cb7-45"></a>  <span class="fu">mutate</span>(<span class="at">galvez =</span> PAN <span class="sc">+</span> PAN_PRI_PRD <span class="sc">+</span> PAN_PRI <span class="sc">+</span> PAN_PRD <span class="sc">+</span> PRI <span class="sc">+</span> PRI_PRD <span class="sc">+</span> PRD) <span class="sc">|&gt;</span></span>
-<span id="cb7-46"><a href="#cb7-46"></a>  <span class="fu">mutate</span>(<span class="at">maynez =</span> MC)</span>
-<span id="cb7-47"><a href="#cb7-47"></a></span>
-<span id="cb7-48"><a href="#cb7-48"></a><span class="in">```</span></span>
-<span id="cb7-49"><a href="#cb7-49"></a></span>
-<span id="cb7-52"><a href="#cb7-52"></a><span class="in">```{r}</span></span>
-<span id="cb7-53"><a href="#cb7-53"></a><span class="fu">write_csv</span>(presidential, <span class="st">"presidential_clean.csv"</span>)</span>
-<span id="cb7-54"><a href="#cb7-54"></a><span class="in">```</span></span>
-<span id="cb7-55"><a href="#cb7-55"></a></span>
-<span id="cb7-56"><a href="#cb7-56"></a></span>
+<div class="sourceCode" id="cb36" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1"></a><span class="co">---</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="an">title:</span><span class="co"> "Report"</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="co">  echo: true      # change to true to show the code</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="an">code-fold:</span><span class="co"> false  # change to true to fold the code chunks</span></span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="co">---</span></span>
+<span id="cb36-7"><a href="#cb36-7"></a></span>
+<span id="cb36-8"><a href="#cb36-8"></a>Your report will go here.</span>
+<span id="cb36-11"><a href="#cb36-11"></a><span class="in">```{r}</span></span>
+<span id="cb36-12"><a href="#cb36-12"></a><span class="co">#TITLE</span></span>
+<span id="cb36-13"><a href="#cb36-13"></a><span class="in">```</span></span>
+<span id="cb36-14"><a href="#cb36-14"></a></span>
+<span id="cb36-17"><a href="#cb36-17"></a><span class="in">```{r}</span></span>
+<span id="cb36-18"><a href="#cb36-18"></a><span class="co">#Background info on election</span></span>
+<span id="cb36-19"><a href="#cb36-19"></a><span class="in">```</span></span>
+<span id="cb36-20"><a href="#cb36-20"></a></span>
+<span id="cb36-21"><a href="#cb36-21"></a></span>
+<span id="cb36-22"><a href="#cb36-22"></a></span>
+<span id="cb36-23"><a href="#cb36-23"></a></span>
+<span id="cb36-26"><a href="#cb36-26"></a><span class="in">```{r}</span></span>
+<span id="cb36-27"><a href="#cb36-27"></a><span class="co"># putting all the data shit in one chunk so we can collapse it more easily later</span></span>
+<span id="cb36-28"><a href="#cb36-28"></a><span class="co"># load presidential election data</span></span>
+<span id="cb36-29"><a href="#cb36-29"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb36-30"><a href="#cb36-30"></a><span class="fu">library</span>(stringi)</span>
+<span id="cb36-31"><a href="#cb36-31"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb36-32"><a href="#cb36-32"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb36-33"><a href="#cb36-33"></a>presidencial <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/presidential/PRES_2024.csv"</span>, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">skip =</span> <span class="dv">6</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"latin1"</span>))</span>
+<span id="cb36-34"><a href="#cb36-34"></a></span>
+<span id="cb36-35"><a href="#cb36-35"></a>presidential <span class="ot">&lt;-</span> presidencial <span class="sc">|&gt;</span></span>
+<span id="cb36-36"><a href="#cb36-36"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-37"><a href="#cb36-37"></a>    <span class="at">casilla_code =</span> CLAVE_CASILLA,</span>
+<span id="cb36-38"><a href="#cb36-38"></a>    <span class="at">acta_code =</span> CLAVE_ACTA,</span>
+<span id="cb36-39"><a href="#cb36-39"></a>    <span class="at">ID_entity =</span> ID_ENTIDAD,</span>
+<span id="cb36-40"><a href="#cb36-40"></a>    <span class="at">entity_state =</span> ENTIDAD,</span>
+<span id="cb36-41"><a href="#cb36-41"></a>    <span class="at">ID_federal_district =</span> ID_DISTRITO_FEDERAL,</span>
+<span id="cb36-42"><a href="#cb36-42"></a>    <span class="at">federal_district =</span> DISTRITO_FEDERAL,</span>
+<span id="cb36-43"><a href="#cb36-43"></a>    <span class="at">section =</span> SECCION,</span>
+<span id="cb36-44"><a href="#cb36-44"></a>    <span class="at">casilla_id =</span> ID_CASILLA,</span>
+<span id="cb36-45"><a href="#cb36-45"></a>    <span class="at">casilla_type =</span> TIPO_CASILLA,</span>
+<span id="cb36-46"><a href="#cb36-46"></a>    <span class="at">ext_contigua =</span> EXT_CONTIGUA,</span>
+<span id="cb36-47"><a href="#cb36-47"></a>    <span class="at">casilla =</span> CASILLA,</span>
+<span id="cb36-48"><a href="#cb36-48"></a>    <span class="at">acta_type =</span> TIPO_ACTA,</span>
+<span id="cb36-49"><a href="#cb36-49"></a>    <span class="at">independent =</span> <span class="st">`</span><span class="at">CANDIDATO/A NO REGISTRADO/A</span><span class="st">`</span>,</span>
+<span id="cb36-50"><a href="#cb36-50"></a>    <span class="at">null_votes =</span> <span class="st">`</span><span class="at">VOTOS NULOS</span><span class="st">`</span>,</span>
+<span id="cb36-51"><a href="#cb36-51"></a>    <span class="at">total_votes =</span> TOTAL_VOTOS_CALCULADOS,</span>
+<span id="cb36-52"><a href="#cb36-52"></a>    <span class="at">eligible_voters =</span> LISTA_NOMINAL,</span>
+<span id="cb36-53"><a href="#cb36-53"></a>    <span class="at">observations =</span> OBSERVACIONES,</span>
+<span id="cb36-54"><a href="#cb36-54"></a>    <span class="at">transfer_mechanism =</span> MECANISMOS_TRASLADO,</span>
+<span id="cb36-55"><a href="#cb36-55"></a>    <span class="at">date_time =</span> FECHA_HORA</span>
+<span id="cb36-56"><a href="#cb36-56"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb36-57"><a href="#cb36-57"></a>  <span class="fu">filter</span>(total_votes <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-58"><a href="#cb36-58"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="dv">13</span><span class="sc">:</span><span class="dv">31</span>), as.numeric) <span class="sc">|&gt;</span></span>
+<span id="cb36-59"><a href="#cb36-59"></a>  <span class="fu">mutate</span>(<span class="at">sheinbaum =</span> PT <span class="sc">+</span> MORENA <span class="sc">+</span> PVEM_PT_MORENA <span class="sc">+</span> PVEM_PT <span class="sc">+</span> PVEM_MORENA <span class="sc">+</span> PT_MORENA <span class="sc">+</span> PVEM) <span class="sc">|&gt;</span></span>
+<span id="cb36-60"><a href="#cb36-60"></a>  <span class="fu">mutate</span>(<span class="at">galvez =</span> PAN <span class="sc">+</span> PAN_PRI_PRD <span class="sc">+</span> PAN_PRI <span class="sc">+</span> PAN_PRD <span class="sc">+</span> PRI <span class="sc">+</span> PRI_PRD <span class="sc">+</span> PRD) <span class="sc">|&gt;</span></span>
+<span id="cb36-61"><a href="#cb36-61"></a>  <span class="fu">mutate</span>(<span class="at">maynez =</span> MC)</span>
+<span id="cb36-62"><a href="#cb36-62"></a></span>
+<span id="cb36-63"><a href="#cb36-63"></a><span class="co"># clean it again because i realized i wasn't htorough enough the first time but i used the original dataset in my eda</span></span>
+<span id="cb36-64"><a href="#cb36-64"></a>presidential_clean <span class="ot">&lt;-</span> presidential <span class="sc">|&gt;</span></span>
+<span id="cb36-65"><a href="#cb36-65"></a>  <span class="fu">mutate</span>(<span class="at">casilla =</span> <span class="fu">fct_recode</span>(casilla, <span class="st">"Non-urban"</span> <span class="ot">=</span> <span class="st">"No Urbana"</span>, <span class="st">"Urban"</span> <span class="ot">=</span> <span class="st">"Urbana"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-66"><a href="#cb36-66"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-67"><a href="#cb36-67"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-68"><a href="#cb36-68"></a>  <span class="fu">select</span>(casilla_code, acta_code, ID_entity, entity_state, casilla_type, casilla, independent, null_votes, total_votes, eligible_voters, sheinbaum, galvez, maynez) <span class="sc">|&gt;</span></span>
+<span id="cb36-69"><a href="#cb36-69"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-70"><a href="#cb36-70"></a>    <span class="at">id_state =</span> ID_entity,</span>
+<span id="cb36-71"><a href="#cb36-71"></a>    <span class="at">state =</span> entity_state</span>
+<span id="cb36-72"><a href="#cb36-72"></a>  )</span>
+<span id="cb36-73"><a href="#cb36-73"></a></span>
+<span id="cb36-74"><a href="#cb36-74"></a><span class="co"># IGNORE THE ONE CALLED `presidential_clean.csv`!!!!!!!</span></span>
+<span id="cb36-75"><a href="#cb36-75"></a></span>
+<span id="cb36-76"><a href="#cb36-76"></a><span class="co"># presidential election percentages dataset</span></span>
+<span id="cb36-77"><a href="#cb36-77"></a>pres_percents <span class="ot">&lt;-</span> presidential <span class="sc">|&gt;</span></span>
+<span id="cb36-78"><a href="#cb36-78"></a>  <span class="fu">group_by</span>(entity_state) <span class="sc">|&gt;</span></span>
+<span id="cb36-79"><a href="#cb36-79"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb36-80"><a href="#cb36-80"></a>    <span class="at">tot_sheinbaum =</span> <span class="fu">sum</span>(sheinbaum), </span>
+<span id="cb36-81"><a href="#cb36-81"></a>    <span class="at">tot_galvez =</span> <span class="fu">sum</span>(galvez), </span>
+<span id="cb36-82"><a href="#cb36-82"></a>    <span class="at">tot_maynez =</span> <span class="fu">sum</span>(maynez), </span>
+<span id="cb36-83"><a href="#cb36-83"></a>    <span class="at">total_votes =</span> <span class="fu">sum</span>(total_votes)) <span class="sc">|&gt;</span></span>
+<span id="cb36-84"><a href="#cb36-84"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-85"><a href="#cb36-85"></a>    <span class="at">pct_sheinbaum =</span> tot_sheinbaum<span class="sc">/</span>total_votes, </span>
+<span id="cb36-86"><a href="#cb36-86"></a>    <span class="at">pct_galvez =</span> tot_galvez<span class="sc">/</span>total_votes, </span>
+<span id="cb36-87"><a href="#cb36-87"></a>    <span class="at">pct_maynez =</span> tot_maynez<span class="sc">/</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb36-88"><a href="#cb36-88"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-89"><a href="#cb36-89"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-90"><a href="#cb36-90"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"tot"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-91"><a href="#cb36-91"></a>  <span class="fu">mutate</span>(<span class="at">pct_sheinbaum_cats =</span> </span>
+<span id="cb36-92"><a href="#cb36-92"></a>          <span class="fu">cut</span>(pct_sheinbaum,</span>
+<span id="cb36-93"><a href="#cb36-93"></a>              <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">4</span>, .<span class="dv">85</span>, <span class="at">by =</span> .<span class="dv">05</span>),</span>
+<span id="cb36-94"><a href="#cb36-94"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"40%"</span>, <span class="st">"45%"</span>, <span class="st">"50%"</span>, <span class="st">"55%"</span>, <span class="st">"60%"</span>, <span class="st">"65%"</span>, <span class="st">"70%"</span>, <span class="st">"75%"</span>, <span class="st">"80%"</span>),</span>
+<span id="cb36-95"><a href="#cb36-95"></a>              <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-96"><a href="#cb36-96"></a>         ), </span>
+<span id="cb36-97"><a href="#cb36-97"></a>         <span class="at">pct_galvez_cats =</span></span>
+<span id="cb36-98"><a href="#cb36-98"></a>          <span class="fu">cut</span>(pct_galvez,</span>
+<span id="cb36-99"><a href="#cb36-99"></a>              <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">1</span>, .<span class="dv">5</span>, <span class="at">by =</span> .<span class="dv">05</span>),</span>
+<span id="cb36-100"><a href="#cb36-100"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"10%"</span>, <span class="st">"15%"</span>, <span class="st">"20%"</span>, <span class="st">"25%"</span>, <span class="st">"30%"</span>, <span class="st">"35%"</span>, <span class="st">"40%"</span>, <span class="st">"45%"</span>),</span>
+<span id="cb36-101"><a href="#cb36-101"></a>              <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-102"><a href="#cb36-102"></a>         ),</span>
+<span id="cb36-103"><a href="#cb36-103"></a>         <span class="at">pct_maynez_cats =</span></span>
+<span id="cb36-104"><a href="#cb36-104"></a>           <span class="fu">cut</span>(pct_maynez,</span>
+<span id="cb36-105"><a href="#cb36-105"></a>               <span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">05</span>, .<span class="dv">25</span>, <span class="at">by =</span> .<span class="dv">03</span>),</span>
+<span id="cb36-106"><a href="#cb36-106"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"5%"</span>, <span class="st">"8%"</span>, <span class="st">"11%"</span>, <span class="st">"14%"</span>, <span class="st">"17%"</span>, <span class="st">"20%"</span>),</span>
+<span id="cb36-107"><a href="#cb36-107"></a>               <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-108"><a href="#cb36-108"></a>         ))</span>
+<span id="cb36-109"><a href="#cb36-109"></a></span>
+<span id="cb36-110"><a href="#cb36-110"></a><span class="co"># now we're going to upload and clean some statistical data from Mexico</span></span>
+<span id="cb36-111"><a href="#cb36-111"></a><span class="co"># population by state</span></span>
+<span id="cb36-112"><a href="#cb36-112"></a>population_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/population_state_1020.csv"</span>)</span>
+<span id="cb36-113"><a href="#cb36-113"></a>population_20 <span class="ot">&lt;-</span> population_messy <span class="sc">|&gt;</span></span>
+<span id="cb36-114"><a href="#cb36-114"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-115"><a href="#cb36-115"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-116"><a href="#cb36-116"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb36-117"><a href="#cb36-117"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb36-118"><a href="#cb36-118"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb36-119"><a href="#cb36-119"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb36-120"><a href="#cb36-120"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-121"><a href="#cb36-121"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-122"><a href="#cb36-122"></a>    <span class="at">state =</span> State,</span>
+<span id="cb36-123"><a href="#cb36-123"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb36-124"><a href="#cb36-124"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>,</span>
+<span id="cb36-125"><a href="#cb36-125"></a>    <span class="at">pop =</span> Population</span>
+<span id="cb36-126"><a href="#cb36-126"></a>  )</span>
+<span id="cb36-127"><a href="#cb36-127"></a></span>
+<span id="cb36-128"><a href="#cb36-128"></a><span class="co"># quarterly income by state and year (MXP)</span></span>
+<span id="cb36-129"><a href="#cb36-129"></a>income_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/income_state_1622.csv"</span>)</span>
+<span id="cb36-130"><a href="#cb36-130"></a>income_16_22 <span class="ot">&lt;-</span> income_messy <span class="sc">|&gt;</span> <span class="co"># keeping year-by-year data as possible analysis tool</span></span>
+<span id="cb36-131"><a href="#cb36-131"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-132"><a href="#cb36-132"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb36-133"><a href="#cb36-133"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb36-134"><a href="#cb36-134"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb36-135"><a href="#cb36-135"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb36-136"><a href="#cb36-136"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-137"><a href="#cb36-137"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-138"><a href="#cb36-138"></a>    <span class="at">state =</span> State,</span>
+<span id="cb36-139"><a href="#cb36-139"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb36-140"><a href="#cb36-140"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>,</span>
+<span id="cb36-141"><a href="#cb36-141"></a>    <span class="at">income_quarterly_mxp =</span> <span class="st">`</span><span class="at">Quarterly Income</span><span class="st">`</span></span>
+<span id="cb36-142"><a href="#cb36-142"></a>  )</span>
+<span id="cb36-143"><a href="#cb36-143"></a></span>
+<span id="cb36-144"><a href="#cb36-144"></a><span class="co"># violent crime by state (data in Spanish)</span></span>
+<span id="cb36-145"><a href="#cb36-145"></a>crimes_messy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/originals/crimes_state_1524.csv"</span>)</span>
+<span id="cb36-146"><a href="#cb36-146"></a>violent_crimes_18_23 <span class="ot">&lt;-</span> crimes_messy<span class="sc">|&gt;</span> <span class="co"># we only want crime data from 2023 as it was before the election, possible avg after 2018</span></span>
+<span id="cb36-147"><a href="#cb36-147"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-148"><a href="#cb36-148"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb36-149"><a href="#cb36-149"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb36-150"><a href="#cb36-150"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">"Estado de "</span>, <span class="st">""</span>),</span>
+<span id="cb36-151"><a href="#cb36-151"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb36-152"><a href="#cb36-152"></a>    <span class="at">State =</span> <span class="fu">str_replace</span>(State, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-153"><a href="#cb36-153"></a>  <span class="fu">filter</span>(Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>)) <span class="sc">|&gt;</span> <span class="co">#removing data pre-AMLO + election years</span></span>
+<span id="cb36-154"><a href="#cb36-154"></a>  <span class="co"># we will be using the FBI's definition of violent crime to filter the list</span></span>
+<span id="cb36-155"><a href="#cb36-155"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Crime Type</span><span class="st">`</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Robo"</span>, </span>
+<span id="cb36-156"><a href="#cb36-156"></a>                             <span class="st">"Violación Equiparada"</span>, </span>
+<span id="cb36-157"><a href="#cb36-157"></a>                             <span class="st">"Violación Simple"</span>, </span>
+<span id="cb36-158"><a href="#cb36-158"></a>                             <span class="st">"Homicidio"</span>, </span>
+<span id="cb36-159"><a href="#cb36-159"></a>                             <span class="st">"Lesiones"</span>, </span>
+<span id="cb36-160"><a href="#cb36-160"></a>                             <span class="st">"Otros Delitos que Atentan contra la Vida y la Integridad Corporal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-161"><a href="#cb36-161"></a>  <span class="fu">group_by</span>(State, Year, <span class="st">`</span><span class="at">State ID</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-162"><a href="#cb36-162"></a>  <span class="fu">summarise</span>(<span class="at">tot_viol_crime =</span> <span class="fu">sum</span>(Value)) <span class="sc">|&gt;</span></span>
+<span id="cb36-163"><a href="#cb36-163"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-164"><a href="#cb36-164"></a>    <span class="at">state =</span> State,</span>
+<span id="cb36-165"><a href="#cb36-165"></a>    <span class="at">year =</span> Year,</span>
+<span id="cb36-166"><a href="#cb36-166"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">State ID</span><span class="st">`</span></span>
+<span id="cb36-167"><a href="#cb36-167"></a>  )</span>
+<span id="cb36-168"><a href="#cb36-168"></a>  </span>
+<span id="cb36-169"><a href="#cb36-169"></a></span>
+<span id="cb36-170"><a href="#cb36-170"></a><span class="co"># indigenous mexicans (by state, those who speak an indigenous language)</span></span>
+<span id="cb36-171"><a href="#cb36-171"></a><span class="co"># ¡UNZIP mx_census_2020.csv ZIP FILE TO RUN!</span></span>
+<span id="cb36-172"><a href="#cb36-172"></a><span class="co"># census_messy &lt;- read_csv("data/originals/mx_census_2020.csv")</span></span>
+<span id="cb36-173"><a href="#cb36-173"></a><span class="co"># census_messy |&gt;</span></span>
+<span id="cb36-174"><a href="#cb36-174"></a><span class="co">#   filter(NOM_LOC == "Total de la Entidad") |&gt; # census totals by state</span></span>
+<span id="cb36-175"><a href="#cb36-175"></a><span class="co">#   mutate(</span></span>
+<span id="cb36-176"><a href="#cb36-176"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, "Ciudad de México", "Distrito Federal"),</span></span>
+<span id="cb36-177"><a href="#cb36-177"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Zaragoza", ""),</span></span>
+<span id="cb36-178"><a href="#cb36-178"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Ocampo", ""),</span></span>
+<span id="cb36-179"><a href="#cb36-179"></a><span class="co">#     NOM_ENT = str_replace(NOM_ENT, " de Ignacio de la Llave", "")) |&gt;</span></span>
+<span id="cb36-180"><a href="#cb36-180"></a><span class="co">#   select(1:2, 10, 124:139) |&gt;</span></span>
+<span id="cb36-181"><a href="#cb36-181"></a><span class="co">#   select(-contains("AFRO"), -ends_with("_M"), -ends_with("_F")) |&gt;</span></span>
+<span id="cb36-182"><a href="#cb36-182"></a><span class="co">#   rename(</span></span>
+<span id="cb36-183"><a href="#cb36-183"></a><span class="co">#     id_state = ENTIDAD,</span></span>
+<span id="cb36-184"><a href="#cb36-184"></a><span class="co">#     state = NOM_ENT,</span></span>
+<span id="cb36-185"><a href="#cb36-185"></a><span class="co">#     tot_pop = POBTOT,</span></span>
+<span id="cb36-186"><a href="#cb36-186"></a><span class="co">#     indigenous_hh = PHOG_IND</span></span>
+<span id="cb36-187"><a href="#cb36-187"></a><span class="co">#   ) |&gt;</span></span>
+<span id="cb36-188"><a href="#cb36-188"></a><span class="co">#   mutate_at(vars(4:10), as.numeric) |&gt;</span></span>
+<span id="cb36-189"><a href="#cb36-189"></a><span class="co">#   mutate(pct_indigenous = (indigenous_hh/tot_pop)*100)</span></span>
+<span id="cb36-190"><a href="#cb36-190"></a></span>
+<span id="cb36-191"><a href="#cb36-191"></a><span class="co"># import second indigenous dataset idfk (those who self-identify as indigenous)</span></span>
+<span id="cb36-192"><a href="#cb36-192"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb36-193"><a href="#cb36-193"></a>indigenous_messy <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/originals/1-poblacion-indigena-autoadscrita-nacional-y-por-entidad-federativa-muestra-censal-2020.xlsx"</span>, </span>
+<span id="cb36-194"><a href="#cb36-194"></a>    <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb36-195"><a href="#cb36-195"></a>indigenous_pop_24 <span class="ot">&lt;-</span> indigenous_messy <span class="sc">|&gt;</span></span>
+<span id="cb36-196"><a href="#cb36-196"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Entidad)) <span class="sc">|&gt;</span></span>
+<span id="cb36-197"><a href="#cb36-197"></a>  <span class="fu">filter</span>(Entidad <span class="sc">!=</span> <span class="st">"Estados Unidos Mexicanos"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-198"><a href="#cb36-198"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-199"><a href="#cb36-199"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>),</span>
+<span id="cb36-200"><a href="#cb36-200"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Zaragoza"</span>, <span class="st">""</span>),</span>
+<span id="cb36-201"><a href="#cb36-201"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Ocampo"</span>, <span class="st">""</span>),</span>
+<span id="cb36-202"><a href="#cb36-202"></a>    <span class="at">Entidad =</span> <span class="fu">str_replace</span>(Entidad, <span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-203"><a href="#cb36-203"></a>  <span class="fu">filter</span>(Estimador <span class="sc">==</span> <span class="st">"Estimación"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-204"><a href="#cb36-204"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Clave de la entidad</span><span class="st">`</span>, Entidad, Tipo, <span class="st">`</span><span class="at">Se considera indígena</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-205"><a href="#cb36-205"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Tipo, <span class="at">values_from =</span> <span class="st">`</span><span class="at">Se considera indígena</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-206"><a href="#cb36-206"></a>  <span class="fu">rename</span>(</span>
+<span id="cb36-207"><a href="#cb36-207"></a>    <span class="at">id_state =</span> <span class="st">`</span><span class="at">Clave de la entidad</span><span class="st">`</span>,</span>
+<span id="cb36-208"><a href="#cb36-208"></a>    <span class="at">state =</span> Entidad,</span>
+<span id="cb36-209"><a href="#cb36-209"></a>    <span class="at">pop_ind =</span> Población,</span>
+<span id="cb36-210"><a href="#cb36-210"></a>    <span class="at">pct_ind =</span> Porcentaje</span>
+<span id="cb36-211"><a href="#cb36-211"></a>  )</span>
+<span id="cb36-212"><a href="#cb36-212"></a></span>
+<span id="cb36-213"><a href="#cb36-213"></a><span class="co"># democracy index economist</span></span>
+<span id="cb36-214"><a href="#cb36-214"></a>mx_dem_index <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb36-215"><a href="#cb36-215"></a>  <span class="sc">~</span>year, <span class="sc">~</span>ranking, <span class="sc">~</span>regime_type,</span>
+<span id="cb36-216"><a href="#cb36-216"></a>  <span class="dv">2010</span>, <span class="fl">6.93</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-217"><a href="#cb36-217"></a>  <span class="dv">2011</span>, <span class="fl">6.93</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-218"><a href="#cb36-218"></a>  <span class="dv">2012</span>, <span class="fl">6.90</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-219"><a href="#cb36-219"></a>  <span class="dv">2013</span>, <span class="fl">6.91</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-220"><a href="#cb36-220"></a>  <span class="dv">2014</span>, <span class="fl">6.68</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-221"><a href="#cb36-221"></a>  <span class="dv">2015</span>, <span class="fl">6.55</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-222"><a href="#cb36-222"></a>  <span class="dv">2016</span>, <span class="fl">6.47</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-223"><a href="#cb36-223"></a>  <span class="dv">2017</span>, <span class="fl">6.41</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-224"><a href="#cb36-224"></a>  <span class="dv">2018</span>, <span class="fl">6.19</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-225"><a href="#cb36-225"></a>  <span class="dv">2019</span>, <span class="fl">6.09</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-226"><a href="#cb36-226"></a>  <span class="dv">2020</span>, <span class="fl">6.07</span>, <span class="st">"Flawed democracy"</span>,</span>
+<span id="cb36-227"><a href="#cb36-227"></a>  <span class="dv">2021</span>, <span class="fl">5.57</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb36-228"><a href="#cb36-228"></a>  <span class="dv">2022</span>, <span class="fl">5.25</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb36-229"><a href="#cb36-229"></a>  <span class="dv">2023</span>, <span class="fl">5.14</span>, <span class="st">"Hybrid regime"</span>,</span>
+<span id="cb36-230"><a href="#cb36-230"></a>  <span class="dv">2024</span>, <span class="fl">5.32</span>, <span class="st">"Hybrid regime"</span></span>
+<span id="cb36-231"><a href="#cb36-231"></a>)</span>
+<span id="cb36-232"><a href="#cb36-232"></a></span>
+<span id="cb36-233"><a href="#cb36-233"></a><span class="co">#mexico map</span></span>
+<span id="cb36-234"><a href="#cb36-234"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>)</span>
+<span id="cb36-235"><a href="#cb36-235"></a><span class="in">```</span></span>
+<span id="cb36-236"><a href="#cb36-236"></a></span>
+<span id="cb36-239"><a href="#cb36-239"></a><span class="in">```{r}</span></span>
+<span id="cb36-240"><a href="#cb36-240"></a><span class="co"># democracy </span></span>
+<span id="cb36-241"><a href="#cb36-241"></a>mx_dem_index <span class="sc">|&gt;</span></span>
+<span id="cb36-242"><a href="#cb36-242"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ranking)) <span class="sc">+</span></span>
+<span id="cb36-243"><a href="#cb36-243"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">0</span>, <span class="at">intercept =</span> <span class="fl">6.0</span>, <span class="at">color =</span> <span class="st">"grey"</span>, <span class="at">linetype =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb36-244"><a href="#cb36-244"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb36-245"><a href="#cb36-245"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Score"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb36-246"><a href="#cb36-246"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"Year"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2012</span>, <span class="dv">2014</span>, <span class="dv">2016</span>, <span class="dv">2018</span>, <span class="dv">2020</span>, <span class="dv">2022</span>, <span class="dv">2024</span>)) <span class="sc">+</span></span>
+<span id="cb36-247"><a href="#cb36-247"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb36-248"><a href="#cb36-248"></a>           <span class="at">label =</span> <span class="st">"Flawed democracy"</span>, </span>
+<span id="cb36-249"><a href="#cb36-249"></a>           <span class="at">x =</span> <span class="fl">2017.5</span>, </span>
+<span id="cb36-250"><a href="#cb36-250"></a>           <span class="at">y =</span> <span class="fl">7.25</span>, </span>
+<span id="cb36-251"><a href="#cb36-251"></a>           <span class="at">size =</span> <span class="fl">4.5</span>, </span>
+<span id="cb36-252"><a href="#cb36-252"></a>           <span class="at">color =</span> <span class="st">"grey"</span>, </span>
+<span id="cb36-253"><a href="#cb36-253"></a>           <span class="at">fontface =</span> <span class="st">"italic"</span>) <span class="sc">+</span></span>
+<span id="cb36-254"><a href="#cb36-254"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb36-255"><a href="#cb36-255"></a>           <span class="at">label =</span> <span class="st">"Hybrid regime"</span>, </span>
+<span id="cb36-256"><a href="#cb36-256"></a>           <span class="at">x =</span> <span class="fl">2017.5</span>, </span>
+<span id="cb36-257"><a href="#cb36-257"></a>           <span class="at">y =</span> <span class="fl">5.25</span>, </span>
+<span id="cb36-258"><a href="#cb36-258"></a>           <span class="at">size =</span> <span class="fl">4.5</span>, </span>
+<span id="cb36-259"><a href="#cb36-259"></a>           <span class="at">color =</span> <span class="st">"grey"</span>, </span>
+<span id="cb36-260"><a href="#cb36-260"></a>           <span class="at">fontface =</span> <span class="st">"italic"</span>) <span class="sc">+</span></span>
+<span id="cb36-261"><a href="#cb36-261"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb36-262"><a href="#cb36-262"></a>           <span class="at">label =</span> <span class="st">"AMLO elected"</span>,</span>
+<span id="cb36-263"><a href="#cb36-263"></a>           <span class="at">x =</span> <span class="fl">2018.95</span>,</span>
+<span id="cb36-264"><a href="#cb36-264"></a>           <span class="at">y =</span> <span class="fl">6.3</span>,</span>
+<span id="cb36-265"><a href="#cb36-265"></a>           <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb36-266"><a href="#cb36-266"></a>  <span class="fu">geom_point</span>(<span class="at">x =</span> <span class="dv">2018</span>, <span class="at">y =</span> <span class="fl">6.19</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb36-267"><a href="#cb36-267"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-268"><a href="#cb36-268"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Economist Democracy Score for Mexico, 2010-2024"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: Economist Group 2024"</span>)</span>
+<span id="cb36-269"><a href="#cb36-269"></a><span class="in">```</span></span>
+<span id="cb36-272"><a href="#cb36-272"></a><span class="in">```{r}</span></span>
+<span id="cb36-273"><a href="#cb36-273"></a><span class="co"># general election information</span></span>
+<span id="cb36-274"><a href="#cb36-274"></a><span class="in">```</span></span>
+<span id="cb36-275"><a href="#cb36-275"></a></span>
+<span id="cb36-278"><a href="#cb36-278"></a><span class="in">```{r}</span></span>
+<span id="cb36-279"><a href="#cb36-279"></a><span class="co"># comparative state-by-state bar graph</span></span>
+<span id="cb36-280"><a href="#cb36-280"></a>presidential <span class="sc">|&gt;</span></span>
+<span id="cb36-281"><a href="#cb36-281"></a>    <span class="fu">group_by</span>(entity_state) <span class="sc">|&gt;</span></span>
+<span id="cb36-282"><a href="#cb36-282"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb36-283"><a href="#cb36-283"></a>    <span class="at">tot_sheinbaum =</span> <span class="fu">sum</span>(sheinbaum), </span>
+<span id="cb36-284"><a href="#cb36-284"></a>    <span class="at">tot_galvez =</span> <span class="fu">sum</span>(galvez), </span>
+<span id="cb36-285"><a href="#cb36-285"></a>    <span class="at">tot_maynez =</span> <span class="fu">sum</span>(maynez),</span>
+<span id="cb36-286"><a href="#cb36-286"></a>    <span class="at">total_votes =</span> <span class="fu">sum</span>(total_votes))<span class="sc">|&gt;</span></span>
+<span id="cb36-287"><a href="#cb36-287"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-288"><a href="#cb36-288"></a>    <span class="at">Sheinbaum =</span> tot_sheinbaum<span class="sc">/</span>total_votes, </span>
+<span id="cb36-289"><a href="#cb36-289"></a>    Gálvez <span class="ot">=</span> tot_galvez<span class="sc">/</span>total_votes, </span>
+<span id="cb36-290"><a href="#cb36-290"></a>    Máynez <span class="ot">=</span> tot_maynez<span class="sc">/</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb36-291"><a href="#cb36-291"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_to_title</span>(entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-292"><a href="#cb36-292"></a>  <span class="fu">mutate</span>(<span class="at">entity_state =</span> <span class="fu">str_replace</span>(entity_state, <span class="st">"Ciudad De México"</span>, <span class="st">"Distrito Federal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-293"><a href="#cb36-293"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">"tot"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-294"><a href="#cb36-294"></a>  <span class="fu">pivot_longer</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">names_to =</span> <span class="st">"Candidate"</span>, <span class="at">values_to =</span> <span class="st">"Vote Share"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-295"><a href="#cb36-295"></a>  <span class="fu">mutate</span>(<span class="at">Candidate =</span> <span class="fu">fct_relevel</span>(Candidate, <span class="fu">c</span>(<span class="st">"Sheinbaum"</span>, <span class="st">"Gálvez"</span>, <span class="st">"Máynez"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb36-296"><a href="#cb36-296"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> entity_state, <span class="at">y =</span> <span class="st">`</span><span class="at">Vote Share</span><span class="st">`</span>, <span class="at">fill =</span> Candidate)) <span class="sc">+</span></span>
+<span id="cb36-297"><a href="#cb36-297"></a>    <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb36-298"><a href="#cb36-298"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Vote Share"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0%"</span>, <span class="st">"25%"</span>, <span class="st">"50%"</span>, <span class="st">"75%"</span>, <span class="st">"100%"</span>)) <span class="sc">+</span></span>
+<span id="cb36-299"><a href="#cb36-299"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb36-300"><a href="#cb36-300"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Sheinbaum"</span> <span class="ot">=</span> <span class="st">"#b62218"</span>, <span class="st">"Gálvez"</span> <span class="ot">=</span> <span class="st">"#ef64bc"</span>, <span class="st">"Máynez"</span> <span class="ot">=</span> <span class="st">"#FF8C00"</span>)) <span class="sc">+</span></span>
+<span id="cb36-301"><a href="#cb36-301"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-302"><a href="#cb36-302"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"State/District"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span>
+<span id="cb36-303"><a href="#cb36-303"></a><span class="in">```</span></span>
+<span id="cb36-304"><a href="#cb36-304"></a></span>
+<span id="cb36-307"><a href="#cb36-307"></a><span class="in">```{r}</span></span>
+<span id="cb36-308"><a href="#cb36-308"></a><span class="co">#explaining indigenous graphs</span></span>
+<span id="cb36-309"><a href="#cb36-309"></a><span class="in">```</span></span>
+<span id="cb36-310"><a href="#cb36-310"></a></span>
+<span id="cb36-311"><a href="#cb36-311"></a></span>
+<span id="cb36-314"><a href="#cb36-314"></a><span class="in">```{r}</span></span>
+<span id="cb36-315"><a href="#cb36-315"></a>indigenous_pop_24 <span class="sc">|&gt;</span></span>
+<span id="cb36-316"><a href="#cb36-316"></a>  <span class="fu">arrange</span>(pct_ind)</span>
+<span id="cb36-317"><a href="#cb36-317"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb36-318"><a href="#cb36-318"></a>  <span class="fu">left_join</span>(indigenous_pop_24, <span class="fu">join_by</span>(name <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-319"><a href="#cb36-319"></a>  <span class="fu">mutate</span>(<span class="at">pct_ind_cat =</span> </span>
+<span id="cb36-320"><a href="#cb36-320"></a>           <span class="fu">cut</span>(pct_ind,</span>
+<span id="cb36-321"><a href="#cb36-321"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">07</span>, .<span class="dv">11</span>, .<span class="dv">16</span>, .<span class="dv">26</span>, .<span class="dv">36</span>, .<span class="dv">48</span>, .<span class="dv">70</span>),</span>
+<span id="cb36-322"><a href="#cb36-322"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"2%-7%"</span>, <span class="st">"7%-11%"</span>, <span class="st">"11%-16%"</span>, <span class="st">"16%-26%"</span>, <span class="st">"26%-36%"</span>, <span class="st">"36%-48%"</span>, <span class="st">"48%-69%"</span>)</span>
+<span id="cb36-323"><a href="#cb36-323"></a>           )) <span class="sc">|&gt;</span></span>
+<span id="cb36-324"><a href="#cb36-324"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-325"><a href="#cb36-325"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_ind_cat)) <span class="sc">+</span></span>
+<span id="cb36-326"><a href="#cb36-326"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb36-327"><a href="#cb36-327"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">7</span>, <span class="st">"BuGn"</span>), <span class="at">name =</span> <span class="st">"% Indigenous"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb36-328"><a href="#cb36-328"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"% Self-identified Indigenous by State in Mexico"</span>, <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INPI 2020"</span>)</span>
+<span id="cb36-329"><a href="#cb36-329"></a>  </span>
+<span id="cb36-330"><a href="#cb36-330"></a><span class="in">```</span></span>
+<span id="cb36-331"><a href="#cb36-331"></a></span>
+<span id="cb36-334"><a href="#cb36-334"></a><span class="in">```{r}</span></span>
+<span id="cb36-335"><a href="#cb36-335"></a>indigenous_pop_24 <span class="sc">|&gt;</span></span>
+<span id="cb36-336"><a href="#cb36-336"></a>  <span class="fu">select</span>(<span class="sc">-</span>id_state) <span class="sc">|&gt;</span></span>
+<span id="cb36-337"><a href="#cb36-337"></a>  <span class="fu">left_join</span>((pres_percents <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">"cats"</span>))), <span class="fu">join_by</span>(state <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-338"><a href="#cb36-338"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pct_ind, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb36-339"><a href="#cb36-339"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-340"><a href="#cb36-340"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-341"><a href="#cb36-341"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, .<span class="dv">8</span>, <span class="at">by =</span> .<span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0%"</span>, <span class="st">"20%"</span>, <span class="st">"40%"</span>, <span class="st">"60%"</span>, <span class="st">"80%"</span>)) <span class="sc">+</span></span>
+<span id="cb36-342"><a href="#cb36-342"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(.<span class="dv">4</span>, .<span class="dv">9</span>, <span class="at">by =</span> .<span class="dv">1</span>),<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"40%"</span>, <span class="st">"50%"</span>, <span class="st">"60%"</span>, <span class="st">"70%"</span>, <span class="st">"80%"</span>, <span class="st">"90%"</span>)) <span class="sc">+</span></span>
+<span id="cb36-343"><a href="#cb36-343"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"% Sheinbaum vote vs. % Indigenous, by State"</span>,</span>
+<span id="cb36-344"><a href="#cb36-344"></a>       <span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE 2024, INPI 2020"</span>,</span>
+<span id="cb36-345"><a href="#cb36-345"></a>       <span class="at">x  =</span> <span class="st">"% Indigenous"</span>,</span>
+<span id="cb36-346"><a href="#cb36-346"></a>       <span class="at">y =</span> <span class="st">"% Sheinbaum"</span>)</span>
+<span id="cb36-347"><a href="#cb36-347"></a><span class="in">```</span></span>
+<span id="cb36-350"><a href="#cb36-350"></a><span class="in">```{r}</span></span>
+<span id="cb36-351"><a href="#cb36-351"></a><span class="co">#explaining crime graphs</span></span>
+<span id="cb36-352"><a href="#cb36-352"></a><span class="in">```</span></span>
+<span id="cb36-353"><a href="#cb36-353"></a></span>
+<span id="cb36-354"><a href="#cb36-354"></a></span>
+<span id="cb36-357"><a href="#cb36-357"></a><span class="in">```{r}</span></span>
+<span id="cb36-358"><a href="#cb36-358"></a><span class="co"># Average violent crimes per state across all years</span></span>
+<span id="cb36-359"><a href="#cb36-359"></a>crime_avg <span class="ot">&lt;-</span> violent_crimes_18_23 <span class="sc">%&gt;%</span></span>
+<span id="cb36-360"><a href="#cb36-360"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb36-361"><a href="#cb36-361"></a>  <span class="fu">summarise</span>(<span class="at">avg_violent_crime =</span> <span class="fu">mean</span>(tot_viol_crime, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb36-362"><a href="#cb36-362"></a></span>
+<span id="cb36-363"><a href="#cb36-363"></a><span class="co"># Get Mexico shapefile</span></span>
+<span id="cb36-364"><a href="#cb36-364"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb36-365"><a href="#cb36-365"></a></span>
+<span id="cb36-366"><a href="#cb36-366"></a><span class="co"># Fix state names before merging</span></span>
+<span id="cb36-367"><a href="#cb36-367"></a>crime_avg <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb36-368"><a href="#cb36-368"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> state <span class="sc">|&gt;</span></span>
+<span id="cb36-369"><a href="#cb36-369"></a>           <span class="fu">str_replace</span>(<span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-370"><a href="#cb36-370"></a>           <span class="fu">str_replace</span>(<span class="st">" de Zaragoza"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-371"><a href="#cb36-371"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ocampo"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-372"><a href="#cb36-372"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)</span>
+<span id="cb36-373"><a href="#cb36-373"></a>         )</span>
+<span id="cb36-374"><a href="#cb36-374"></a>combined_data <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb36-375"><a href="#cb36-375"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(state <span class="sc">==</span> entity_state))</span>
+<span id="cb36-376"><a href="#cb36-376"></a></span>
+<span id="cb36-377"><a href="#cb36-377"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span>  <span class="co"># (this "old" combined_data you had earlier)</span></span>
+<span id="cb36-378"><a href="#cb36-378"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb36-379"><a href="#cb36-379"></a>    violent_crimes_18_23 <span class="sc">|&gt;</span></span>
+<span id="cb36-380"><a href="#cb36-380"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-381"><a href="#cb36-381"></a>      <span class="fu">left_join</span>(population_20, <span class="fu">join_by</span>(state <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-382"><a href="#cb36-382"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb36-383"><a href="#cb36-383"></a>        <span class="at">crime_rate =</span> (tot_viol_crime <span class="sc">/</span> pop) <span class="sc">*</span> <span class="dv">100000</span></span>
+<span id="cb36-384"><a href="#cb36-384"></a>      ),</span>
+<span id="cb36-385"><a href="#cb36-385"></a>    <span class="fu">join_by</span>(state <span class="sc">==</span> state)</span>
+<span id="cb36-386"><a href="#cb36-386"></a>  )</span>
+<span id="cb36-387"><a href="#cb36-387"></a></span>
+<span id="cb36-388"><a href="#cb36-388"></a><span class="co"># Merge spatial data</span></span>
+<span id="cb36-389"><a href="#cb36-389"></a>mexico_crime <span class="ot">&lt;-</span> mexico <span class="sc">%&gt;%</span></span>
+<span id="cb36-390"><a href="#cb36-390"></a>  <span class="fu">left_join</span>(crime_avg, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb36-391"><a href="#cb36-391"></a></span>
+<span id="cb36-392"><a href="#cb36-392"></a><span class="co"># Plot the choropleth</span></span>
+<span id="cb36-393"><a href="#cb36-393"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb36-394"><a href="#cb36-394"></a><span class="fu">left_join</span>(combined_data, <span class="fu">join_by</span>(name <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-395"><a href="#cb36-395"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-396"><a href="#cb36-396"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> crime_rate)) <span class="sc">+</span></span>
+<span id="cb36-397"><a href="#cb36-397"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb36-398"><a href="#cb36-398"></a><span class="in">```</span></span>
+<span id="cb36-401"><a href="#cb36-401"></a><span class="in">```{r}</span></span>
+<span id="cb36-402"><a href="#cb36-402"></a><span class="co"># Step 2: Plot point plot</span></span>
+<span id="cb36-403"><a href="#cb36-403"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">x =</span> crime_rate, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb36-404"><a href="#cb36-404"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-405"><a href="#cb36-405"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-406"><a href="#cb36-406"></a>    <span class="at">x =</span> <span class="st">"Crime Rate (per 100,000 people)"</span>,</span>
+<span id="cb36-407"><a href="#cb36-407"></a>    <span class="at">y =</span> <span class="st">"Sheinbaum Vote %"</span>,</span>
+<span id="cb36-408"><a href="#cb36-408"></a>    <span class="at">title =</span> <span class="st">"Crime Rate vs Sheinbaum Vote % (2023)"</span></span>
+<span id="cb36-409"><a href="#cb36-409"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-410"><a href="#cb36-410"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb36-411"><a href="#cb36-411"></a><span class="in">```</span></span>
+<span id="cb36-412"><a href="#cb36-412"></a></span>
+<span id="cb36-413"><a href="#cb36-413"></a></span>
+<span id="cb36-414"><a href="#cb36-414"></a></span>
+<span id="cb36-417"><a href="#cb36-417"></a><span class="in">```{r}</span></span>
+<span id="cb36-418"><a href="#cb36-418"></a><span class="co">#explaining income graphs</span></span>
+<span id="cb36-419"><a href="#cb36-419"></a><span class="in">```</span></span>
+<span id="cb36-420"><a href="#cb36-420"></a></span>
+<span id="cb36-423"><a href="#cb36-423"></a><span class="in">```{r}</span></span>
+<span id="cb36-424"><a href="#cb36-424"></a><span class="co"># Calculate the average income per state across all years</span></span>
+<span id="cb36-425"><a href="#cb36-425"></a>income_avg <span class="ot">&lt;-</span> income_16_22 <span class="sc">%&gt;%</span></span>
+<span id="cb36-426"><a href="#cb36-426"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb36-427"><a href="#cb36-427"></a>  <span class="fu">summarise</span>(<span class="at">avg_income =</span> <span class="fu">mean</span>(income_quarterly_mxp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb36-428"><a href="#cb36-428"></a></span>
+<span id="cb36-429"><a href="#cb36-429"></a><span class="co"># Get a shapefile or geometry of Mexican states</span></span>
+<span id="cb36-430"><a href="#cb36-430"></a><span class="co"># We'll use rnaturalearth for a quick version</span></span>
+<span id="cb36-431"><a href="#cb36-431"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb36-432"><a href="#cb36-432"></a><span class="fu">library</span>(rnaturalearthdata)</span>
+<span id="cb36-433"><a href="#cb36-433"></a></span>
+<span id="cb36-434"><a href="#cb36-434"></a><span class="co"># Download Mexico map</span></span>
+<span id="cb36-435"><a href="#cb36-435"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb36-436"><a href="#cb36-436"></a></span>
+<span id="cb36-437"><a href="#cb36-437"></a><span class="co"># Check state names if necessary</span></span>
+<span id="cb36-438"><a href="#cb36-438"></a> <span class="fu">unique</span>(mexico<span class="sc">$</span>name)</span>
+<span id="cb36-439"><a href="#cb36-439"></a> <span class="fu">unique</span>(income_avg<span class="sc">$</span>state)</span>
+<span id="cb36-440"><a href="#cb36-440"></a></span>
+<span id="cb36-441"><a href="#cb36-441"></a><span class="co"># Join your income data with the Mexico shapefile</span></span>
+<span id="cb36-442"><a href="#cb36-442"></a>mexico_income <span class="ot">&lt;-</span> mexico <span class="sc">%&gt;%</span></span>
+<span id="cb36-443"><a href="#cb36-443"></a>  <span class="fu">left_join</span>((income_avg<span class="sc">|&gt;</span><span class="fu">mutate</span>(</span>
+<span id="cb36-444"><a href="#cb36-444"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">"Ciudad de México"</span>,<span class="st">"Distrito Federal"</span>),</span>
+<span id="cb36-445"><a href="#cb36-445"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Zaragoza"</span>,<span class="st">""</span>),</span>
+<span id="cb36-446"><a href="#cb36-446"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Ocampo"</span>,<span class="st">""</span>),</span>
+<span id="cb36-447"><a href="#cb36-447"></a>    <span class="at">state =</span> <span class="fu">str_replace</span>(state, <span class="st">" de Ignacio de la Llave"</span>,<span class="st">""</span>))), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb36-448"><a href="#cb36-448"></a> </span>
+<span id="cb36-449"><a href="#cb36-449"></a><span class="co"># Plot the choropleth</span></span>
+<span id="cb36-450"><a href="#cb36-450"></a><span class="fu">ggplot</span>(mexico_income) <span class="sc">+</span></span>
+<span id="cb36-451"><a href="#cb36-451"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> avg_income)) <span class="sc">+</span></span>
+<span id="cb36-452"><a href="#cb36-452"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">na.value =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
+<span id="cb36-453"><a href="#cb36-453"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb36-454"><a href="#cb36-454"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-455"><a href="#cb36-455"></a>    <span class="at">title =</span> <span class="st">"Average Income by State in Mexico"</span>,</span>
+<span id="cb36-456"><a href="#cb36-456"></a>    <span class="at">fill =</span> <span class="st">"Avg Income"</span></span>
+<span id="cb36-457"><a href="#cb36-457"></a>  )</span>
+<span id="cb36-458"><a href="#cb36-458"></a><span class="in">```</span></span>
+<span id="cb36-461"><a href="#cb36-461"></a><span class="in">```{r}</span></span>
+<span id="cb36-462"><a href="#cb36-462"></a><span class="co"># Step 1: Make sure names match</span></span>
+<span id="cb36-463"><a href="#cb36-463"></a><span class="co"># Clean state names in crime_avg</span></span>
+<span id="cb36-464"><a href="#cb36-464"></a>crime_avg <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb36-465"><a href="#cb36-465"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> state <span class="sc">|&gt;</span> </span>
+<span id="cb36-466"><a href="#cb36-466"></a>           <span class="fu">str_replace</span>(<span class="st">"Ciudad de México"</span>, <span class="st">"Distrito Federal"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-467"><a href="#cb36-467"></a>           <span class="fu">str_replace</span>(<span class="st">" de Zaragoza"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-468"><a href="#cb36-468"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ocampo"</span>, <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-469"><a href="#cb36-469"></a>           <span class="fu">str_replace</span>(<span class="st">" de Ignacio de la Llave"</span>, <span class="st">""</span>)</span>
+<span id="cb36-470"><a href="#cb36-470"></a>         )</span>
+<span id="cb36-471"><a href="#cb36-471"></a></span>
+<span id="cb36-472"><a href="#cb36-472"></a><span class="co"># Step 2: Join the datasets</span></span>
+<span id="cb36-473"><a href="#cb36-473"></a>combined_data <span class="ot">&lt;-</span> crime_avg <span class="sc">%&gt;%</span></span>
+<span id="cb36-474"><a href="#cb36-474"></a>  <span class="fu">left_join</span>(pres_percents, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"state"</span> <span class="ot">=</span> <span class="st">"entity_state"</span>))</span>
+<span id="cb36-475"><a href="#cb36-475"></a></span>
+<span id="cb36-476"><a href="#cb36-476"></a><span class="co"># Step 1: Create combined_data</span></span>
+<span id="cb36-477"><a href="#cb36-477"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span>  <span class="co"># (this "old" combined_data you had earlier)</span></span>
+<span id="cb36-478"><a href="#cb36-478"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb36-479"><a href="#cb36-479"></a>    violent_crimes_18_23 <span class="sc">|&gt;</span></span>
+<span id="cb36-480"><a href="#cb36-480"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-481"><a href="#cb36-481"></a>      <span class="fu">left_join</span>(population_20, <span class="fu">join_by</span>(state <span class="sc">==</span> state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-482"><a href="#cb36-482"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb36-483"><a href="#cb36-483"></a>        <span class="at">crime_rate =</span> (tot_viol_crime <span class="sc">/</span> pop) <span class="sc">*</span> <span class="dv">100000</span></span>
+<span id="cb36-484"><a href="#cb36-484"></a>      ),</span>
+<span id="cb36-485"><a href="#cb36-485"></a>    <span class="fu">join_by</span>(state <span class="sc">==</span> state)</span>
+<span id="cb36-486"><a href="#cb36-486"></a>  )</span>
+<span id="cb36-487"><a href="#cb36-487"></a></span>
+<span id="cb36-488"><a href="#cb36-488"></a><span class="co"># Combine combined_data and income_avg by matching 'state' and 'State'</span></span>
+<span id="cb36-489"><a href="#cb36-489"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">%&gt;%</span></span>
+<span id="cb36-490"><a href="#cb36-490"></a>  <span class="fu">left_join</span>(income_avg, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"state"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb36-491"><a href="#cb36-491"></a></span>
+<span id="cb36-492"><a href="#cb36-492"></a>   </span>
+<span id="cb36-493"><a href="#cb36-493"></a> <span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">x =</span> avg_income, <span class="at">y =</span> pct_sheinbaum)) <span class="sc">+</span></span>
+<span id="cb36-494"><a href="#cb36-494"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-495"><a href="#cb36-495"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-496"><a href="#cb36-496"></a>    <span class="at">x =</span> <span class="st">"Average Income"</span>,</span>
+<span id="cb36-497"><a href="#cb36-497"></a>    <span class="at">y =</span> <span class="st">"Sheinbaum Vote %"</span>,</span>
+<span id="cb36-498"><a href="#cb36-498"></a>    <span class="at">title =</span> <span class="st">"Income in a state vs. Sheinbaum Vote %"</span></span>
+<span id="cb36-499"><a href="#cb36-499"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-500"><a href="#cb36-500"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb36-501"><a href="#cb36-501"></a></span>
+<span id="cb36-502"><a href="#cb36-502"></a><span class="in">```</span></span>
+<span id="cb36-503"><a href="#cb36-503"></a></span>
+<span id="cb36-506"><a href="#cb36-506"></a><span class="in">```{r}</span></span>
+<span id="cb36-507"><a href="#cb36-507"></a><span class="co">#Move into specific canidate votes per state (move to general election information)</span></span>
+<span id="cb36-508"><a href="#cb36-508"></a><span class="in">```</span></span>
+<span id="cb36-509"><a href="#cb36-509"></a></span>
+<span id="cb36-512"><a href="#cb36-512"></a><span class="in">```{r}</span></span>
+<span id="cb36-513"><a href="#cb36-513"></a><span class="co"># call map of states</span></span>
+<span id="cb36-514"><a href="#cb36-514"></a>mexico <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"Mexico"</span>)</span>
+<span id="cb36-515"><a href="#cb36-515"></a></span>
+<span id="cb36-516"><a href="#cb36-516"></a><span class="co"># plot Sheinbaum results</span></span>
+<span id="cb36-517"><a href="#cb36-517"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb36-518"><a href="#cb36-518"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(name <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-519"><a href="#cb36-519"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-520"><a href="#cb36-520"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_sheinbaum_cats)) <span class="sc">+</span></span>
+<span id="cb36-521"><a href="#cb36-521"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb36-522"><a href="#cb36-522"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>), <span class="at">name =</span> <span class="st">"% Vote"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb36-523"><a href="#cb36-523"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span>
+<span id="cb36-524"><a href="#cb36-524"></a><span class="in">```</span></span>
+<span id="cb36-525"><a href="#cb36-525"></a></span>
+<span id="cb36-528"><a href="#cb36-528"></a><span class="in">```{r}</span></span>
+<span id="cb36-529"><a href="#cb36-529"></a><span class="co"># plot Gálvez results</span></span>
+<span id="cb36-530"><a href="#cb36-530"></a>mexico <span class="sc">|&gt;</span></span>
+<span id="cb36-531"><a href="#cb36-531"></a>  <span class="fu">left_join</span>(pres_percents, <span class="fu">join_by</span>(name <span class="sc">==</span> entity_state)) <span class="sc">|&gt;</span></span>
+<span id="cb36-532"><a href="#cb36-532"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-533"><a href="#cb36-533"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pct_galvez_cats)) <span class="sc">+</span></span>
+<span id="cb36-534"><a href="#cb36-534"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb36-535"><a href="#cb36-535"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"RdPu"</span>), <span class="at">name =</span> <span class="st">"% Vote"</span>, <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb36-536"><a href="#cb36-536"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Author: Quinn Cowell | Source: INE, 2024"</span>)</span>
+<span id="cb36-537"><a href="#cb36-537"></a><span class="in">```</span></span>
+<span id="cb36-540"><a href="#cb36-540"></a><span class="in">```{r}</span></span>
+<span id="cb36-541"><a href="#cb36-541"></a><span class="co">#conclude</span></span>
+<span id="cb36-542"><a href="#cb36-542"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
