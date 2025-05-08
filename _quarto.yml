@@ -46,6 +46,7 @@ book:
   - part: "EDA"
     chapters:
     - src/eda/quinn-c.qmd
+    - src/eda/Isaiah-R.qmd
 
   appendices:
    - src/appx/proposal.qmd
