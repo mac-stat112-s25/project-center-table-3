@@ -7,7 +7,7 @@ code-fold: false  # change to true to fold the code chunks
 
 Your report will go here.
 ```{r}
-#TITLE
+#TITLE/Research question
 ```
 
 ```{r}
@@ -260,7 +260,9 @@ mx_dem_index |>
   labs(title = "Economist Democracy Score for Mexico, 2010-2024", caption = "Author: Quinn Cowell | Source: Economist Group 2024")
 ```
 ```{r}
-# general election information
+# Here we have included graph(s) to show general election info showing support distribution of voters. We wanted to get a sense of how voters were distributed amongst their chosen canidates. Clearly we cna most certainly emphasize Sheinbaum's overall dominance in this election.
+
+# -we can add more graphs her if need be
 ```
 
 ```{r}
@@ -291,7 +293,7 @@ presidential |>
 ```
 
 ```{r}
-#explaining indigenous graphs
+# Continuing into this section of our report, through our research we went through some different sources and there were a couple of issues that continued to pop up in our research of this election. Them being the economy/wages of labor, crime, and indigenous issues. We want to explore these issues to see if there may be any correlation between these issues and Sheinbaum voter percentage. To start we wanted to take a look at percent population of indigenous people in the states of Mexico, which as you can tell that further in the south of Mexico is where a majority of the indigenous population is. We will keep this in mind as we explore further into the next graph.
 ```
 
 
@@ -314,6 +316,11 @@ mexico |>
 ```
 
 ```{r}
+#Here in this graph we can see that the higher the population of indigenous people are in a state the more likely they are to vote majority for Sheinbaum. Even then as we look closer at the graph we can still see that the points overall vote mostly Sheinbaum, specifically over 50% of that state still vote for Sheinbaum. Reinstating the clear fact that Sheinbaum dominated in this election.
+```
+
+
+```{r}
 indigenous_pop_24 |>
   select(-id_state) |>
   left_join((pres_percents |> select(-contains("cats"))), join_by(state == entity_state)) |>
@@ -328,7 +335,7 @@ ggplot(aes(x = pct_ind, y = pct_sheinbaum)) +
        y = "% Sheinbaum")
 ```
 ```{r}
-#explaining crime graphs
+#Now looking at our crime graphs, through a little math we took a a states total violent crime divided it by its total population back in 2023 and multiplied by 100,000. In this case the solution to this would tell us on average how many violent crimes happen for every 100,000 people. Looking at this graph we can see that average is again at its highest towards the south of Mexico other than the standout state in the north Baja California. Again, we shall keep this in mind looking at the next graph and others still to come.
 ```
 
 
@@ -372,8 +379,17 @@ mexico |>
 left_join(combined_data, join_by(name == state)) |>
 ggplot() +
   geom_sf(aes(fill = crime_rate)) +
+  labs(title = "Crime rate of each state 2023 (# of violent crimes/population * 100k)",
+       caption = "By: Isaiah Ramirez, 5/9/2025, Source: SESNSP 2025, INE 2024")+
   theme_void()
+  
 ```
+
+```{r}
+#Now looking at this graph we can may be see a slight decline of Sheinbaum voters as crime rate increases, but still we can see that majority of these points are still well over the 50% mark for Sheinbaum supporters.No matter the variety of crime rate in each state. Makes it easy to tell that Sheinbaum is well supported by states no matter the crime rate.
+```
+
+
 ```{r}
 # Step 2: Plot point plot
 ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
@@ -381,7 +397,8 @@ ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
   labs(
     x = "Crime Rate (per 100,000 people)",
     y = "Sheinbaum Vote %",
-    title = "Crime Rate vs Sheinbaum Vote % (2023)"
+    title = "Crime Rate vs Sheinbaum Vote % (2023)",
+    caption = "By: Isaiah Ramirez, 5/9/2025, Source: SESNSP 2025, INE 2024"
   ) +
   theme_minimal()
 ```
@@ -389,7 +406,7 @@ ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
 
 
 ```{r}
-#explaining income graphs
+# Finally, looking at average income for states. We really wanted to look at states where maybe they and a higher or lower average income to see if there is a relation between income and Sheinbaum voter percentage. Here we see down in the south is where the more poorer community seems to be. Here we can form the idea that the south of Mexico in general seems to be where life is maybe a little harder. Again remember this for reference.
 ```
 
 ```{r}
@@ -425,9 +442,16 @@ ggplot(mexico_income) +
   theme_void() +
   labs(
     title = "Average Income by State in Mexico",
-    fill = "Avg Income"
+    fill = "Avg Income",
+    caption = "By Isiaah Ramirez, 5/9/2025, Sources: GDM, INE 2024"
   )
 ```
+
+```{r}
+# In this graph we can definitely see the continuation of crime where the higher the income, the less support Sheinbaum gets. However we can still see that it is that way, most of the states points are well over the 50% support of Sheinbaum. Even with the decline of her support as income increases.
+```
+
+
 ```{r}
 # Step 1: Make sure names match
 # Clean state names in crime_avg
@@ -465,14 +489,15 @@ combined_data <- combined_data %>%
   labs(
     x = "Average Income",
     y = "Sheinbaum Vote %",
-    title = "Income in a state vs. Sheinbaum Vote %"
+    title = "Income in a state vs. Sheinbaum Vote %",
+    caption = "By Isiaah Ramirez, 5/9/2025, Sources: GDM, INE 2024"
   ) +
   theme_minimal()
 
 ```
 
 ```{r}
-#Move into specific canidate votes per state (move to general election information)
+# Now as we sort of tie things together, here we have included maps of each state's voting percentage for Sheinbaum and Galvez. Something to note here is the amount of support Sheinbaum got from states int he south. Which I think reflects what Sheinbaum's political party is all about. Even then, her overall voter percentage is pretty high amongst all the states. And looking back at the income map we can see where the higher income areas are, mostly in the north of Mexico where most of Galvez's support mostly was Even if she still didn't take the majority vote in a state. We can see that overall there is a definite pattern of the Sheinbaum team being overall well supported by voters all across the board.
 ```
 
 ```{r}
@@ -500,6 +525,6 @@ mexico |>
     labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
 ```
 ```{r}
-#conclude
+#In conclusion, while there was another candidate in the election—Álvarez Máynez—we chose not to focus on his campaign due to limited voter support. For the purposes of our analysis, the data and trends surrounding Galvez and Sheinbaum offered the most meaningful insights into the overall outcome of the election.
 ```
 
