@@ -1,0 +1,129 @@
+State ID,State,Year,Quarterly Income
+1,Aguascalientes,2016,67409.6
+1,Aguascalientes,2018,72532.9
+1,Aguascalientes,2020,65697.1
+1,Aguascalientes,2022,78287.5
+2,Baja California,2016,78960.4
+2,Baja California,2018,72328.7
+2,Baja California,2020,76423
+2,Baja California,2022,88911.1
+3,Baja California Sur,2016,77132.3
+3,Baja California Sur,2018,84060.6
+3,Baja California Sur,2020,72412.4
+3,Baja California Sur,2022,91414.5
+4,Campeche,2016,60515.1
+4,Campeche,2018,58296.2
+4,Campeche,2020,53272
+4,Campeche,2022,57456.6
+5,Coahuila de Zaragoza,2016,63769.2
+5,Coahuila de Zaragoza,2018,68353.3
+5,Coahuila de Zaragoza,2020,62731.6
+5,Coahuila de Zaragoza,2022,75125.1
+6,Colima,2016,65333.2
+6,Colima,2018,64487.9
+6,Colima,2020,63437.7
+6,Colima,2022,69320.9
+7,Chiapas,2016,31835.2
+7,Chiapas,2018,32401.4
+7,Chiapas,2020,32867
+7,Chiapas,2022,39844.8
+8,Chihuahua,2016,65852.4
+8,Chihuahua,2018,66037.9
+8,Chihuahua,2020,67906.7
+8,Chihuahua,2022,81928.9
+9,Ciudad de México,2016,96957.7
+9,Ciudad de México,2018,96660.7
+9,Ciudad de México,2020,75900.6
+9,Ciudad de México,2022,89310.3
+10,Durango,2016,55276.4
+10,Durango,2018,53347.7
+10,Durango,2020,56749.3
+10,Durango,2022,57218.1
+11,Guanajuato,2016,77984.8
+11,Guanajuato,2018,56395.7
+11,Guanajuato,2020,54525.4
+11,Guanajuato,2022,60099.4
+12,Guerrero,2016,36929.8
+12,Guerrero,2018,35852.3
+12,Guerrero,2020,36639.8
+12,Guerrero,2022,41753.9
+13,Hidalgo,2016,44533.4
+13,Hidalgo,2018,47401.4
+13,Hidalgo,2020,45175.1
+13,Hidalgo,2022,53233.6
+14,Jalisco,2016,71680.8
+14,Jalisco,2018,73994.9
+14,Jalisco,2020,62817.2
+14,Jalisco,2022,71743.9
+15,México,2016,59295.2
+15,México,2018,58683
+15,México,2020,55913.6
+15,México,2022,57232.5
+16,Michoacán de Ocampo,2016,46249.2
+16,Michoacán de Ocampo,2018,52131.7
+16,Michoacán de Ocampo,2020,52297.3
+16,Michoacán de Ocampo,2022,56958.4
+17,Morelos,2016,56388.5
+17,Morelos,2018,52522.4
+17,Morelos,2020,47373.1
+17,Morelos,2022,57237.1
+18,Nayarit,2016,58945.3
+18,Nayarit,2018,58846.5
+18,Nayarit,2020,58555
+18,Nayarit,2022,65323.1
+19,Nuevo León,2016,119979.4
+19,Nuevo León,2018,84284.8
+19,Nuevo León,2020,82180.7
+19,Nuevo León,2022,86017.8
+20,Oaxaca,2016,37920.7
+20,Oaxaca,2018,38612.3
+20,Oaxaca,2020,40862.4
+20,Oaxaca,2022,43342.4
+21,Puebla,2016,48412.7
+21,Puebla,2018,47636.4
+21,Puebla,2020,44641.3
+21,Puebla,2022,49383.3
+22,Querétaro,2016,77479.3
+22,Querétaro,2018,74968.7
+22,Querétaro,2020,68100.4
+22,Querétaro,2022,74955.6
+23,Quintana Roo,2016,69216.3
+23,Quintana Roo,2018,69312.9
+23,Quintana Roo,2020,52262.7
+23,Quintana Roo,2022,71902.1
+24,San Luis Potosí,2016,53451.7
+24,San Luis Potosí,2018,56829.1
+24,San Luis Potosí,2020,53883.8
+24,San Luis Potosí,2022,60143.4
+25,Sinaloa,2016,66511.8
+25,Sinaloa,2018,67802.5
+25,Sinaloa,2020,62916.2
+25,Sinaloa,2022,71887.8
+26,Sonora,2016,80503
+26,Sonora,2018,73190.8
+26,Sonora,2020,69140.5
+26,Sonora,2022,75269.9
+27,Tabasco,2016,51169.5
+27,Tabasco,2018,48216.8
+27,Tabasco,2020,46950
+27,Tabasco,2022,52094.6
+28,Tamaulipas,2016,65769.4
+28,Tamaulipas,2018,60072.7
+28,Tamaulipas,2020,55990
+28,Tamaulipas,2022,63520.2
+29,Tlaxcala,2016,46605.1
+29,Tlaxcala,2018,49254.8
+29,Tlaxcala,2020,42726.1
+29,Tlaxcala,2022,46293.9
+30,Veracruz de Ignacio de la Llave,2016,45146.1
+30,Veracruz de Ignacio de la Llave,2018,39654.8
+30,Veracruz de Ignacio de la Llave,2020,39581.4
+30,Veracruz de Ignacio de la Llave,2022,44636.7
+31,Yucatán,2016,58114.6
+31,Yucatán,2018,60963.5
+31,Yucatán,2020,52696.4
+31,Yucatán,2022,62370.9
+32,Zacatecas,2016,49611.1
+32,Zacatecas,2018,46391
+32,Zacatecas,2020,50037.7
+32,Zacatecas,2022,50133.8

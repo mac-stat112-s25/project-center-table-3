@@ -1,5 +1,14 @@
 ---
 title: "Proposal"
+number-sections: false
 ---
 
-Your proposal will go here.
+## An Analysis of the 2024 Mexican Presidential Election
+
+*By Isaiah Ramirez and Quinn Cowell*
+
+### Proposal and reasoning
+
+We will be analyzing and exploring the impact of the 2024 Mexican presidential election, in which the “appointed successor” of term-limited president Andrés Manuel López Obrador, Claudia Sheinbaum Pardo, was elected in a landslide victory. We will be breaking down the results by state, reviewing various variables that may have attributed to Sheinbaum Pardo's overwhelming victory. We chose this topic because we wanted to learn more details about the recent Mexican federal elections, which were significant for the political trajectory of Mexico, and likely by extension the United States, but were not widely discussed in the media at the time.
+
+### Implementation and reponsibility plan

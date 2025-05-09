@@ -1,0 +1,154 @@
+---
+title: "Quinn C"
+format: html
+execute: 
+  warning: false
+---
+
+```{r}
+#| echo: false
+#load packages
+library(tidyverse)
+library(RColorBrewer)
+library(rnaturalearth)
+presidential <- read_csv("../../data/presidential_clean.csv")
+```
+
+
+```{r}
+# How many votes did each candidate receive?
+presidential |>
+  summarise(Sheinbaum = sum(sheinbaum), Gálvez = sum(galvez), Máynez = sum(maynez)) |>
+  pivot_longer(cols = 1:3, names_to = "candidate", values_to = "votes") |>
+  ggplot(aes(x = candidate, y = votes)) +
+    geom_col(fill = "darkgrey") +
+    theme_minimal() +
+    scale_y_continuous(name = "# Votes", breaks = c(0, 1e+07, 2e+07, 3e+07, 4e+07), labels = c("0", "10 mil", "20 mil", "30 mil", "40 mil")) +
+    labs(x = "Candidate", title = "Popular Vote by Candidate", caption = "Author: Quinn Cowell | Date: 4.27.2025 | Source: INE, 2024")
+```
+
+```{r}
+# how did mexicans abroad vote compared to those voting within Mexico?
+presidential |>
+  mutate(vote_abroad = str_detect(casilla_type, "V|M")) |>
+  select(vote_abroad, maynez, galvez, sheinbaum) |>
+  group_by(vote_abroad) |>
+  summarise(Sheinbaum = sum(sheinbaum), Gálvez = sum(galvez), Máynez = sum(maynez)) |>
+  pivot_longer(cols = 2:4, names_to = "candidate", values_to = "votes") |>
+  ggplot(aes(x = vote_abroad, y = votes, fill = candidate)) +
+    geom_col(position = "fill") +
+    scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
+    theme_minimal() +
+  labs(x = "Voted Abroad?",
+       y = "Vote Share",
+       fill = "Candidate", title = "Abroad voting vs. voting within mexico", caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+
+```{r}
+# voter turnout by domestic ballot box
+presidential |>
+  filter(!str_detect(casilla_type, "V|M")) |>
+  mutate(turnout = total_votes/eligible_voters) |>
+  ggplot(aes(x = turnout)) +
+    geom_density() +
+    theme_minimal() +
+    labs(x = "Voter Turnout by Polling Place", caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+
+```{r}
+# what percentage did each candidate get in each state?
+pres_percents <- presidential |>
+  group_by(entity_state) |>
+  summarise(
+    tot_sheinbaum = sum(sheinbaum), 
+    tot_galvez = sum(galvez), 
+    tot_maynez = sum(maynez), 
+    total_votes = sum(total_votes)) |>
+  mutate(
+    pct_sheinbaum = tot_sheinbaum/total_votes, 
+    pct_galvez = tot_galvez/total_votes, 
+    pct_maynez = tot_maynez/total_votes) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(-starts_with("tot")) |>
+  mutate(pct_sheinbaum_cats = 
+          cut(pct_sheinbaum,
+              breaks = seq(.4, .85, by = .05),
+              labels = c("40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%"),
+              include.lowest = TRUE
+         ), 
+         pct_galvez_cats =
+          cut(pct_galvez,
+              breaks = seq(.1, .5, by = .05),
+              labels = c("10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%"),
+              include.lowest = TRUE
+         ),
+         pct_maynez_cats =
+           cut(pct_maynez,
+               breaks = seq(.05, .25, by = .03),
+               labels = c("5%", "8%", "11%", "14%", "17%", "20%"),
+               include.lowest = TRUE
+         ))
+
+# call map of states
+mexico <- ne_states(country = "Mexico")
+
+# plot Sheinbaum results
+mexico |>
+  left_join(pres_percents, join_by(name == entity_state)) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_sheinbaum_cats)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(9, "Reds"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+```{r}
+# plot Gálvez results
+mexico |>
+  left_join(pres_percents, join_by(name == entity_state)) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_galvez_cats)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(8, "RdPu"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+```{r}
+# plot Máynez results
+mexico |>
+  left_join(pres_percents, join_by(name == entity_state)) |>
+  ggplot() +
+    geom_sf(aes(fill = pct_maynez_cats)) +
+    theme_void() +
+    scale_fill_manual(values = brewer.pal(6, "Oranges"), name = "% Vote", na.translate = FALSE) +
+    labs(caption = "Author: Quinn Cowell | Source: INE, 2024")
+```
+
+```{r}
+# comparative state-by-state bar graph
+presidential |>
+    group_by(entity_state) |>
+  summarise(
+    tot_sheinbaum = sum(sheinbaum), 
+    tot_galvez = sum(galvez), 
+    tot_maynez = sum(maynez),
+    total_votes = sum(total_votes))|>
+  mutate(
+    Sheinbaum = tot_sheinbaum/total_votes, 
+    Gálvez = tot_galvez/total_votes, 
+    Máynez = tot_maynez/total_votes) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(-starts_with("tot")) |>
+  pivot_longer(2:4, names_to = "Candidate", values_to = "Vote Share") |>
+  mutate(Candidate = fct_relevel(Candidate, c("Sheinbaum", "Gálvez", "Máynez"))) |>
+  ggplot(aes(x = entity_state, y = `Vote Share`, fill = Candidate)) +
+    geom_col(position = "fill") +
+    scale_y_continuous(name = "Vote Share", breaks = c(0, .25, .5, .75, 1), labels = c("0%", "25%", "50%", "75%", "100%")) +
+    coord_flip() + 
+    scale_fill_manual(values = c("Sheinbaum" = "#b62218", "Gálvez" = "#ef64bc", "Máynez" = "#FF8C00")) +
+    theme_minimal() +
+    labs(x = "State/District", caption = "Author: Quinn Cowell | Source: INE, 2024")
+
+```
+
+
