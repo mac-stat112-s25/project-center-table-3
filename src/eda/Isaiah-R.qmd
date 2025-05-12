@@ -1,0 +1,435 @@
+---
+title: "Isaiah R."
+format: html
+---
+
+
+
+```{r}
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(stringr)
+```
+
+
+```{r}
+income_state_1622<-read.csv("../../data/originals/income_state_1622.csv")
+
+```
+
+```{r}
+# now we're going to upload and clean some statistical data from Mexico
+# population by state
+population_messy <- read_csv("../../data/originals/population_state_1020.csv")
+population_20 <- population_messy |>
+  filter(Year == 2020) |>
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`,
+    pop = Population
+  )
+
+```
+
+
+```{r}
+# Preview it
+head(income_state_1622)
+
+# Calculate the average income per state across all years
+income_avg <- income_state_1622 %>%
+  group_by(State) %>%
+  summarise(avg_income = mean(Quarterly.Income, na.rm = TRUE))
+
+# Get a shapefile or geometry of Mexican states
+# We'll use rnaturalearth for a quick version
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# Download Mexico map
+mexico <- ne_states(country = "Mexico", returnclass = "sf")
+
+# Check state names if necessary
+ unique(mexico$name)
+ unique(income_avg$state)
+
+# Join your income data with the Mexico shapefile
+mexico_income <- mexico %>%
+  left_join((income_avg|>mutate(
+      State = str_replace(State, "Ciudad de México","Distrito Federal"),
+    State = str_replace(State, " de Zaragoza",""),
+    State = str_replace(State, " de Ocampo",""),
+    State = str_replace(State, " de Ignacio de la Llave",""))), by = c("name" = "State"))
+ 
+# Plot the choropleth
+ggplot(mexico_income) +
+  geom_sf(aes(fill = avg_income)) +
+  scale_fill_viridis_c(option = "plasma", na.value = "gray90") +
+  theme_minimal() +
+  labs(
+    title = "Average Income by State in Mexico",
+    fill = "Avg Income"
+  )
+```
+```{r}
+# violent crime by state (data in Spanish)
+crimes_messy <- read_csv("../../data/originals/crimes_state_1524.csv")
+violent_crimes_18_23 <- crimes_messy|> # we only want crime data from 2023 as it was before the election, possible avg after 2018
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  filter(Year %in% c(2019, 2020, 2021, 2022, 2023)) |> #removing data pre-AMLO + election years
+  # we will be using the FBI's definition of violent crime to filter the list
+  filter(`Crime Type` %in% c("Robo",
+                             "Violación Equiparada",
+                             "Violación Simple",
+                             "Homicidio",
+                             "Lesiones",
+                             "Otros Delitos que Atentan contra la Vida y la Integridad Corporal")) |>
+  group_by(State, Year, `State ID`) |>
+  summarise(tot_viol_crime = sum(Value)) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`
+  )
+
+# Preview
+head(violent_crimes_18_23)
+
+# Average violent crimes per state across all years
+crime_avg <- violent_crimes_18_23 %>%
+  group_by(state) %>%
+  summarise(avg_violent_crime = mean(tot_viol_crime, na.rm = TRUE))
+
+# Get Mexico shapefile
+mexico <- ne_states(country = "Mexico", returnclass = "sf")
+
+# Fix state names before merging
+crime_avg <- crime_avg %>%
+  mutate(state = state |> 
+           str_replace("Ciudad de México", "Distrito Federal") |> 
+           str_replace(" de Zaragoza", "") |> 
+           str_replace(" de Ocampo", "") |> 
+           str_replace(" de Ignacio de la Llave", "")
+         )
+
+# Merge spatial data
+mexico_crime <- mexico %>%
+  left_join(crime_avg, by = c("name" = "state"))
+
+# Plot the choropleth
+ggplot(mexico_crime) +
+  geom_sf(aes(fill = avg_violent_crime)) +
+  scale_fill_viridis_c(option = "plasma", na.value = "gray90",labels = scales::label_comma(accuracy = 1)) +
+  theme_minimal() +
+  labs(
+    title = "Average Violent Crimes by State in Mexico (2019–2023)",
+    fill = "Avg Violent Crimes"
+  )
+```
+
+```{r}
+# what percentage did each candidate get in each state?
+presidential <- read_csv("../../data/presidential_clean.csv")
+pres_percents <- presidential |>
+  group_by(entity_state) |>
+  summarise(
+    tot_sheinbaum = sum(sheinbaum), 
+    tot_galvez = sum(galvez), 
+    tot_maynez = sum(maynez), 
+    total_votes = sum(total_votes)) |>
+  mutate(
+    pct_sheinbaum = tot_sheinbaum/total_votes, 
+    pct_galvez = tot_galvez/total_votes, 
+    pct_maynez = tot_maynez/total_votes) |>
+  mutate(entity_state = str_to_title(entity_state)) |>
+  mutate(entity_state = str_replace(entity_state, "Ciudad De México", "Distrito Federal")) |>
+  select(-starts_with("tot")) |>
+  mutate(pct_sheinbaum_cats = 
+          cut(pct_sheinbaum,
+              breaks = seq(.4, .85, by = .05),
+              labels = c("40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%"),
+              include.lowest = TRUE
+         ), 
+         pct_galvez_cats =
+          cut(pct_galvez,
+              breaks = seq(.1, .5, by = .05),
+              labels = c("10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%"),
+              include.lowest = TRUE
+         ),
+         pct_maynez_cats =
+           cut(pct_maynez,
+               breaks = seq(.05, .25, by = .03),
+               labels = c("5%", "8%", "11%", "14%", "17%", "20%"),
+               include.lowest = TRUE
+         ))
+
+# Average violent crimes per state across all years
+crime_avg <- violent_crimes_18_23 %>%
+  group_by(state) %>%
+  summarise(avg_violent_crime = mean(tot_viol_crime, na.rm = TRUE))
+
+# Step 1: Make sure names match
+# Clean state names in crime_avg
+crime_avg <- crime_avg %>%
+  mutate(state = state |> 
+           str_replace("Ciudad de México", "Distrito Federal") |> 
+           str_replace(" de Zaragoza", "") |> 
+           str_replace(" de Ocampo", "") |> 
+           str_replace(" de Ignacio de la Llave", "")
+         )
+
+# Step 2: Join the datasets
+combined_data <- crime_avg %>%
+  left_join(pres_percents, join_by(state == entity_state))
+
+
+# Step 1: Create combined_data
+combined_data <- combined_data |>  # (this "old" combined_data you had earlier)
+  left_join(
+    violent_crimes_18_23 |>
+      filter(year == 2023) |>
+      left_join(population_20, join_by(state == state)) |>
+      mutate(
+        crime_rate = (tot_viol_crime / pop) * 100000
+      ),
+    join_by(state == state)
+  )
+
+# Step 2: Plot it
+ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
+  geom_point() +
+  labs(
+    x = "Crime Rate (per 100,000 people)",
+    y = "Sheinbaum Vote %",
+    title = "Crime Rate vs Sheinbaum Vote % (2023)"
+  ) +
+  theme_minimal()
+```
+```{r}
+# Combine combined_data and income_avg by matching 'state' and 'State'
+combined_data <- combined_data %>%
+  left_join(income_avg, by = c("state" = "State"))
+
+   
+ ggplot(combined_data, aes(x = avg_income, y = pct_sheinbaum)) +
+  geom_point() +
+  labs(
+    x = "Average Income",
+    y = "Sheinbaum Vote %",
+    title = "Income vs. Sheinbaum Vote %"
+  ) +
+  theme_minimal()
+
+```
+
+
+```{r}
+# Average violent crimes per state across all years
+crime_avg <- violent_crimes_18_23 %>%
+  group_by(state) %>%
+  summarise(avg_violent_crime = mean(tot_viol_crime, na.rm = TRUE))
+
+```
+
+
+
+```{r}
+# Step 1: Make sure names match
+# Clean state names in crime_avg
+crime_avg <- crime_avg %>%
+  mutate(state = state |> 
+           str_replace("Ciudad de México", "Distrito Federal") |> 
+           str_replace(" de Zaragoza", "") |> 
+           str_replace(" de Ocampo", "") |> 
+           str_replace(" de Ignacio de la Llave", "")
+         )
+
+# Step 2: Join the datasets
+combined_data <- crime_avg %>%
+  left_join(pres_percents, by = c("state" = "entity_state"))
+
+```
+
+
+```{r}
+# Step 1: Create combined_data
+combined_data <- combined_data |>  # (this "old" combined_data you had earlier)
+  left_join(
+    violent_crimes_18_23 |>
+      filter(year == 2023) |>
+      left_join(population_20, join_by(state == state)) |>
+      mutate(
+        crime_rate = (tot_viol_crime / pop) * 100000
+      ),
+    join_by(state == state)
+  )
+
+# Step 2: Plot it
+ggplot(combined_data, aes(x = crime_rate, y = pct_sheinbaum)) +
+  geom_point() +
+  labs(
+    x = "Crime Rate (per 100,000 people)",
+    y = "Sheinbaum Vote %",
+    title = "Crime Rate vs Sheinbaum Vote % (2023)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Preview
+head(violent_crimes_18_23)
+
+# Average violent crimes per state across all years
+crime_avg <- violent_crimes_18_23 %>%
+  group_by(state) %>%
+  summarise(avg_violent_crime = mean(tot_viol_crime, na.rm = TRUE))
+
+# Get Mexico shapefile
+mexico <- ne_states(country = "Mexico", returnclass = "sf")
+
+# Fix state names before merging
+crime_avg <- crime_avg %>%
+  mutate(state = state |>
+           str_replace("Ciudad de México", "Distrito Federal") |>
+           str_replace(" de Zaragoza", "") |>
+           str_replace(" de Ocampo", "") |>
+           str_replace(" de Ignacio de la Llave", "")
+         )
+# Merge spatial data
+mexico_crime <- mexico %>%
+  left_join(crime_avg, by = c("name" = "state"))
+
+# Plot the choropleth
+mexico |>
+left_join(combined_data, join_by(name == state)) |>
+ggplot() +
+  geom_sf(aes(fill = crime_rate))
+
+```
+
+
+```{r}
+# now we're going to upload and clean some statistical data from Mexico
+# population by state
+population_messy <- read_csv("../../data/originals/population_state_1020.csv")
+population_20 <- population_messy |>
+  filter(Year == 2020) |>
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`,
+    pop = Population
+  )
+
+```
+```{r}
+# violent crime by state (data in Spanish)
+crimes_messy <- read_csv("../../data/originals/crimes_state_1524.csv")
+violent_crimes_18_23 <- crimes_messy|> # we only want crime data from 2023 as it was before the election, possible avg after 2018
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  filter(Year %in% c(2019, 2020, 2021, 2022, 2023)) |> #removing data pre-AMLO + election years
+  # we will be using the FBI's definition of violent crime to filter the list
+  filter(`Crime Type` %in% c("Robo",
+                             "Violación Equiparada",
+                             "Violación Simple",
+                             "Homicidio",
+                             "Lesiones",
+                             "Otros Delitos que Atentan contra la Vida y la Integridad Corporal")) |>
+  group_by(State, Year, `State ID`) |>
+  summarise(tot_viol_crime = sum(Value)) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`
+  )
+```
+
+
+
+```{r}
+# now we're going to upload and clean some statistical data from Mexico
+# population by state
+population_messy <- read_csv("../../data/originals/population_state_1020.csv")
+population_20 <- population_messy |>
+  filter(Year == 2020) |>
+  mutate(
+    State = str_replace(State, "Ciudad de México", "Distrito Federal"),
+    State = str_replace(State, " de Zaragoza", ""),
+    State = str_replace(State, "Estado de ", ""),
+    State = str_replace(State, " de Ocampo", ""),
+    State = str_replace(State, " de Ignacio de la Llave", "")) |>
+  rename(
+    state = State,
+    year = Year,
+    id_state = `State ID`,
+    pop = Population
+  )
+
+```
+
+
+```{r}
+violent_crimes_18_23|>
+  filter(year == 2023)|>
+  left_join(population_20, 
+            join_by(state == state))|>
+  mutate(
+    crime_rate = (tot_viol_crime/pop) * (100000)
+  )
+ 
+```
+
+```{r}
+# Load needed libraries
+library(tidyverse)
+library(ggplot2)
+
+# Step 1: Make sure names match
+# Clean state names in crime_avg
+crime_avg <- crime_avg %>%
+  mutate(state = state |> 
+           str_replace("Ciudad de México", "Distrito Federal") |> 
+           str_replace(" de Zaragoza", "") |> 
+           str_replace(" de Ocampo", "") |> 
+           str_replace(" de Ignacio de la Llave", "")
+         )
+
+# Step 2: Join the datasets
+combined_data <- crime_avg %>%
+  left_join(pres_percents, by = c("state" = "entity_state"))
+
+```
+
+
+```{r}
+head(combined_data)
+```
+
+
+
+

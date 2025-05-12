@@ -1,5 +1,27 @@
 ---
 title: "Case Study"
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-Your case study will go here.
+We chose [this FiveThirtyEight article](https://fivethirtyeight.com/features/six-charts-to-help-americans-understand-the-upcoming-german-election/) about the 2017 Bundestag elections in Germany.
+
+*Isaiah's Observations*
+
+ * 6 visuals in total
+ * Title
+ * Presenting questions before actual explanations
+ * Gives a table that gives reader general idea of variables
+ * List sources in bottom right corner of viz
+ * In the end they also acknowledge needing to consider other variables as
+well that they may not have gotten to look at
+
+*Quinn's Observations*
+
+ * Comparisons with American political parties to situate -> important to define audience
+ * Variety of data visualizations: maps, tables, charts, graphs
+ * Colorful!!
+ * Overview of all political parties and explanations of voting patterns (about Bundestag elections)
+ * History!! Discussion of East vs. West Germany, previous incarnations of political parties
+ * Visualizations supplement the text, not the other way around
